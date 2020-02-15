@@ -1,6 +1,7 @@
 import os
 
-from flask import Flask
+from flask import Flask, render_template
+
 
 
 def create_app(test_config=None):
@@ -25,8 +26,11 @@ def create_app(test_config=None):
         pass
 
     # a simple page that says hello
-    @app.route('/hello')
-    def hello():
-        return 'Hello, World!'
+    @app.route('/')
+    @app.route('/index')
+    @app.route('/home')
+    def index():
+        page = {'title': 'ggViz', 'desc': 'A CSGO Visualization Tool'}
+        return render_template('index.html', page=page)
 
     return app
