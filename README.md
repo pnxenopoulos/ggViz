@@ -13,8 +13,9 @@
 ... to be completed ...
 
 ## Authors
-Peter Xenopoulos
-João Rulff
+Peter Xenopoulos (NYU)
+
+João Rulff (NYU)
 
 ## License
 Our project is licensed via the [MIT License](https://github.com/pnxenopoulos/ggViz/blob/master/LICENSE)
