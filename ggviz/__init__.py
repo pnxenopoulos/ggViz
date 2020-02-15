@@ -25,7 +25,12 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    # a simple page that says hello
+    # Hello World
+    @app.route('/hello')
+    def hello_world():
+        return 'Hello, World!'
+
+    # Base page
     @app.route('/')
     @app.route('/index')
     @app.route('/home')

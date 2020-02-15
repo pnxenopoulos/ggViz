@@ -1,14 +1,10 @@
 from setuptools import find_packages, setup
 
 setup(
-    name='ggviz',
-    version='0.0.1',
+    name="ggviz",
+    version="0.0.1",
     packages=find_packages(),
     include_package_data=True,
     zip_safe=False,
-    install_requires=[
-        'flask',
-	'flask_sqlalchemy',
-	'flask_testing'
-    ],
+    install_requires=["flask", "flask_sqlalchemy", "flask_testing"],
 )
