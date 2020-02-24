@@ -1,0 +1,42 @@
+/* Define standard variables and values for website */
+$bgcolor: lightblue;
+$textcolor: darkblue;
+$fontsize: 18px;
+
+/* Use the variables */
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.first-row {
+  width: 100%;
+  height: 60%;
+  display: flex;
+}
+
+.second-row {
+  width: 100%;
+  height: 5%;
+}
+
+.charts {
+  flex:1;
+  border-style: solid;
+  border-radius: 10px;
+  margin: 5px;
+}
+
+.map {
+  flex:1;
+  border-style: solid;
+  border-radius: 10px;
+  margin: 5px;
+}
+
+img {
+  width:100%;
+  height:100%;
+}
