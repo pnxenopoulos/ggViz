@@ -1,1 +1,6 @@
-<mat-slider (change)='slide()'></mat-slider>
+<mat-slider 
+    [value] = 'this.slider.getCurrentTimeSet()'
+    [min] = 'this.slider.getRange()[2]'
+    [max] = 'this.slider.getRange()[1]'
+    (change) = slide($event)>
+</mat-slider>
