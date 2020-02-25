@@ -36,9 +36,7 @@ export class MapComponent implements OnInit {
 
 
   createMap() {
-    // console.log(this.mapCanvasRef.nativeElement.getContext('2d'));
     this.map = new Map(this.mapContainer, this.mapCanvasRef);
-
   }
 
 

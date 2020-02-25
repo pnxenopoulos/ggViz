@@ -1,1 +1,9 @@
-<mat-toolbar>GGViz</mat-toolbar>
+<mat-toolbar>
+    <button mat-icon-button [matMenuTriggerFor]="appMenu">
+        <mat-icon>more_vert</mat-icon>
+    </button>
+</mat-toolbar>
+
+<mat-menu #appMenu="matMenu">
+    <button mat-menu-item>Search Match</button>
+</mat-menu>

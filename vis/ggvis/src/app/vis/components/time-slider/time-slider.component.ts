@@ -13,7 +13,7 @@ export class TimeSliderComponent implements OnInit {
   public slider: Slider;
 
   constructor(public events: EventsService) {
-    this.slider = new Slider([0, 10000]);
+    this.slider = new Slider([0, 1000]);
   }
 
   ngOnInit() {}

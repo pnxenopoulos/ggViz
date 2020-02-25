@@ -18,8 +18,7 @@ export class Map {
         this.canvasCtx = canvasRef.nativeElement.getContext('2d');
         this.resizeCanvas();
         this.randomDataPoints();
-        console.log(this.datapoints);
-        // this.drawPlayerTrajectory(0, this.datapoints.slice(0, 0));
+        
 
     }
 
@@ -59,23 +58,33 @@ export class Map {
     updateTrajectory(second: number) {
 
         this.clearCanvas();
+        // this.addBackgroundImage();
         for (let player = 0; player < 10; player++) {
             this.drawPlayerTrajectory(player, this.datapoints.slice(player, second));
+        }
+    }
+
+    addBackgroundImage() {
+
+        const swedishflagbg = new Image();
+        swedishflagbg.src = '../../../../assets/images/dust_map.png';
+        swedishflagbg.onload = () => {
+            this.canvasCtx.drawImage(swedishflagbg, 0, 0, this.canvasRef.nativeElement.width, this.canvasRef.nativeElement.height);
         }
     }
 
     // mock data generator
     randomDataPoints() {
 
-        for (let i = 0; i < 10000; i++) {
+        for (let i = 0; i < 1000; i++) {
             const currentObj = {};
             for (let player = 0; player < 10; player++) {
 
                 if (Math.random() < 0.2 && i !== 0) {
                     const plusOrMinus = Math.random() < 0.5 ? -1 : 1;
                     currentObj[player] = {
-                        x: this.datapoints[ (i - 1) ][player].x + Math.random() * 5 * plusOrMinus,
-                        y: this.datapoints[ (i - 1) ][player].y + Math.random() * 5 * plusOrMinus
+                        x: this.datapoints[ (i - 1) ][player].x + Math.random() * 15 * plusOrMinus,
+                        y: this.datapoints[ (i - 1) ][player].y + Math.random() * 15 * plusOrMinus
                     };
                 } else if (i === 0) {
                     currentObj[player] = {

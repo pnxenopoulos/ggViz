@@ -9,6 +9,8 @@ import { MainContainerComponent } from './vis/components/main-container/main-con
 import { NavbarComponent } from './vis/components/navbar/navbar.component';
 import { TimeSliderComponent } from './vis/components/time-slider/time-slider.component';
 import { MapComponent } from './vis/components/map/map.component';
+import { ModelChartComponent } from './vis/components/model-chart/model-chart.component';
+import { MovementChartComponent } from './vis/components/movement-chart/movement-chart.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +18,9 @@ import { MapComponent } from './vis/components/map/map.component';
     MainContainerComponent,
     NavbarComponent,
     TimeSliderComponent,
-    MapComponent
+    MapComponent,
+    ModelChartComponent,
+    MovementChartComponent
   ],
   imports: [
     BrowserModule,
