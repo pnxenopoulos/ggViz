@@ -1,80 +1,96 @@
 import { ElementRef } from '@angular/core';
 import * as d3 from 'd3';
+import { Slider } from 'src/app/model/slider.model';
 
 export class Map {
 
     private divRef: ElementRef;
-    private svg: any;
+    private canvasRef: ElementRef;
+    private canvasCtx: CanvasRenderingContext2D;
 
     // mock placeholder
-    public datapoints: number[][] = [];
+    public datapoints: any[] = [];
 
-    constructor(divRef: ElementRef) {
+    constructor(divRef: ElementRef, canvasRef: ElementRef) {
 
         this. divRef = divRef;
-        this.createSVG();
-        this.updateChart();
-    }
-
-
-    createSVG() {
-
-        const divWidth = this.divRef.nativeElement.offsetWidth;
-        const divHeight = this.divRef.nativeElement.offsetHeight;
-
-        // creating and appending svg
-        this.svg = d3.select('#map-container').append('svg').attr('width', divWidth).attr('height', divHeight);
-
-
-    }
-
-
-
-    updateChart() {
-
-        const t = d3.select('svg').transition().duration(750);
+        this.canvasRef = canvasRef;
+        this.canvasCtx = canvasRef.nativeElement.getContext('2d');
+        this.resizeCanvas();
         this.randomDataPoints();
+        console.log(this.datapoints);
+        // this.drawPlayerTrajectory(0, this.datapoints.slice(0, 0));
 
-        // this.svg
-        //     .selectAll('.circle-point')
-        //     .data(data)
-        //     .exit()
-        //     .remove();
+    }
 
+    resizeCanvas() {
 
-        this.svg.selectAll('.circle-point')
-            .data(this.datapoints, d => d)
-            .join(
-                enter => enter.append('circle')
-                    .attr('class', 'circle-point')
-                    .attr('fill', 'green')
-                    .attr('cx', (d) => d[0])
-                    .attr('cy', (d) => d[1])
-                    .attr('r',  3.0),
-                update => update
-                    .call(exit => exit.transition(t)
-                    .attr('cy', d => 10)),
-                exit => exit
-                    .call(exit => exit.transition(t)
-                    .attr('cy', (d) => d[1]).remove()
-                )
-            );
+        this.canvasRef.nativeElement.width = this.divRef.nativeElement.offsetWidth;
+        this.canvasRef.nativeElement.height = this.divRef.nativeElement.offsetHeight;
 
     }
 
 
+    drawPlayerTrajectory(playerNumber: number, arrayOfPoints: any[]) {
+
+        this.canvasCtx.lineWidth = 0.5;
+        this.canvasCtx.strokeStyle = 'red';
+
+        if(playerNumber % 2 === 0){
+            this.canvasCtx.strokeStyle = 'red';
+        } else {
+            this.canvasCtx.strokeStyle = 'blue';
+        }
+
+        this.canvasCtx.beginPath();
+        for (let i = 0; i < arrayOfPoints.length; i++) {
+            const x = arrayOfPoints[i][playerNumber].x;
+            const y = arrayOfPoints[i][playerNumber].y;
+            this.canvasCtx.lineTo(x, y);
+        }
+        this.canvasCtx.stroke();
+
+    }
+
+    clearCanvas() {
+        this.canvasCtx.clearRect(0, 0, this.canvasRef.nativeElement.width, this.canvasRef.nativeElement.height);
+    }
+
+    updateTrajectory(second: number) {
+
+        this.clearCanvas();
+        for (let player = 0; player < 10; player++) {
+            this.drawPlayerTrajectory(player, this.datapoints.slice(player, second));
+        }
+    }
 
     // mock data generator
     randomDataPoints() {
 
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 10000; i++) {
+            const currentObj = {};
+            for (let player = 0; player < 10; player++) {
 
-            this.datapoints[i] = ( [
-                (Math.random() * this.divRef.nativeElement.offsetWidth),
-                (Math.random() * this.divRef.nativeElement.offsetHeight)
-            ] );
+                if (Math.random() < 0.2 && i !== 0) {
+                    const plusOrMinus = Math.random() < 0.5 ? -1 : 1;
+                    currentObj[player] = {
+                        x: this.datapoints[ (i - 1) ][player].x + Math.random() * 5 * plusOrMinus,
+                        y: this.datapoints[ (i - 1) ][player].y + Math.random() * 5 * plusOrMinus
+                    };
+                } else if (i === 0) {
+                    currentObj[player] = {
+                        x: Math.random() * this.divRef.nativeElement.offsetWidth ,
+                        y: Math.random() * this.divRef.nativeElement.offsetHeight
+                    };
+                } else {
+                    currentObj[player] = {
+                        x: this.datapoints[ (i - 1) ][player].x,
+                        y: this.datapoints[ (i - 1) ][player].y
+                    };
 
-
+                }
+            }
+            this.datapoints.push(currentObj);
         }
 
     }

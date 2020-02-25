@@ -10,13 +10,12 @@ import { Map } from './map';
 })
 export class MapComponent implements OnInit {
 
-
   // map that holds all d3 interactions
   private map: Map = null;
 
-  // reference to div element
+  // reference HTML elements
   @ViewChild('mapContainerRef', {static: true}) mapContainer: ElementRef;
-  private div: any = null;
+  @ViewChild('mapCanvasRef', {static: true}) mapCanvasRef: ElementRef;
 
   constructor(public events: EventsService) { }
 
@@ -37,18 +36,14 @@ export class MapComponent implements OnInit {
 
 
   createMap() {
-
-    this.map = new Map(this.mapContainer);
+    // console.log(this.mapCanvasRef.nativeElement.getContext('2d'));
+    this.map = new Map(this.mapContainer, this.mapCanvasRef);
 
   }
 
 
   updateMap(slider: Slider) {
-
-    this.map.updateChart();
-
-    console.log('updating map to second: ', slider.getCurrentTimeSet());
-
+    this.map.updateTrajectory(slider.getCurrentTimeSet());
   }
 
 }
