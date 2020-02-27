@@ -11,6 +11,7 @@ import { TimeSliderComponent } from './vis/components/time-slider/time-slider.co
 import { MapComponent } from './vis/components/map/map.component';
 import { ModelChartComponent } from './vis/components/model-chart/model-chart.component';
 import { MovementChartComponent } from './vis/components/movement-chart/movement-chart.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { MovementChartComponent } from './vis/components/movement-chart/movement
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MaterialModule
+    MaterialModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
