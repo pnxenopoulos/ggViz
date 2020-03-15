@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { MatDialog } from '@angular/material';
+import { MatchSearchComponent } from '../dialogs/match-search/match-search.component';
 
 @Component({
   selector: 'app-main-container',
@@ -8,21 +10,10 @@ import { HttpClient } from '@angular/common/http';
 })
 export class MainContainerComponent implements OnInit {
 
-  constructor(private http: HttpClient) { }
+  constructor() { }
 
   ngOnInit() {
 
-    this.test();
-
-  }
-
-
-  async test() {
-
-    this.http.get<any>('http://vidagpu.poly.edu:5000/api/games/all').subscribe(data => {
-      console.log(data);
-
-    });
   }
 
 

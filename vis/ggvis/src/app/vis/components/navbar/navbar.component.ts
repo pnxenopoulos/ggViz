@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DialogService } from '../../../services/dialogs.service';
 
 @Component({
   selector: 'app-navbar',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor() { }
+  constructor(public dialogService: DialogService) { }
 
   ngOnInit() {
+  }
+
+
+  openMatchSearch() {
+    
+    this.dialogService.openMatchSearch();
+
   }
 
 }

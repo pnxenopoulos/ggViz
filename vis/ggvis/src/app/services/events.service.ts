@@ -12,5 +12,9 @@ export class EventsService {
         valueChanged: new EventEmitter<Slider>()
     };
 
+    public apiEvents = {
+        roundLoaded: new EventEmitter<any>()
+    };
+
 
 }

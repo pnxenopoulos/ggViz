@@ -22,7 +22,4 @@ export class Slider {
         this.timeSet = timeSet;
     }
 
-
-
-
 }

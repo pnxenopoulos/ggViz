@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-model-chart',
@@ -10,12 +10,6 @@ export class ModelChartComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
-
-    
-  }
-
-
-  
+  ngOnInit() {}
 
 }

@@ -12,6 +12,9 @@ import { MapComponent } from './vis/components/map/map.component';
 import { ModelChartComponent } from './vis/components/model-chart/model-chart.component';
 import { MovementChartComponent } from './vis/components/movement-chart/movement-chart.component';
 import { HttpClientModule } from '@angular/common/http';
+import { MatDialogModule } from '@angular/material';
+import { MatchSearchComponent } from './vis/components/dialogs/match-search/match-search.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -21,14 +24,20 @@ import { HttpClientModule } from '@angular/common/http';
     TimeSliderComponent,
     MapComponent,
     ModelChartComponent,
-    MovementChartComponent
+    MovementChartComponent,
+    MatchSearchComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
-    HttpClientModule
+    HttpClientModule,
+    MatDialogModule,
+    ReactiveFormsModule
+  ],
+  entryComponents: [
+    MatchSearchComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

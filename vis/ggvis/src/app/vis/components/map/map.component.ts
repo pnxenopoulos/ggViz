@@ -2,6 +2,9 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { EventsService } from 'src/app/services/events.service';
 import { Slider } from 'src/app/model/slider.model';
 import { Map } from './map';
+import { StateService } from 'src/app/services/state.service';
+import * as _ from 'lodash';
+
 
 @Component({
   selector: 'app-map',
@@ -17,7 +20,7 @@ export class MapComponent implements OnInit {
   @ViewChild('mapContainerRef', {static: true}) mapContainer: ElementRef;
   @ViewChild('mapCanvasRef', {static: true}) mapCanvasRef: ElementRef;
 
-  constructor(public events: EventsService) { }
+  constructor(public events: EventsService, public stateService: StateService) { }
 
   ngOnInit() {
     this.subscribeToEvents();
@@ -31,6 +34,10 @@ export class MapComponent implements OnInit {
       this.updateMap(slider);
     });
 
+    this.events.apiEvents.roundLoaded.subscribe(() => {
+      // console.log('round loaded');
+    });
+
 
   }
 
@@ -41,7 +48,13 @@ export class MapComponent implements OnInit {
 
 
   updateMap(slider: Slider) {
-    this.map.updateTrajectory(slider.getCurrentTimeSet());
+    this.map.clearCanvas();
+    const players = this.stateService.getAllPlayerIDs();
+    this.map.drawBackground();
+    _.forEach(players, player => {
+      const playerTrajectory = this.stateService.getPlayerTrajectory( player, slider.getCurrentTimeSet());
+      this.map.drawPlayerTrajectory(playerTrajectory);
+    });
   }
 
 }

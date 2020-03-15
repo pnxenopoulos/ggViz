@@ -1,0 +1,13 @@
+<div class="match-search-container">
+
+    <mat-form-field>
+        <input type='text' matInput [matAutocomplete]='auto'>
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]='displayName'>
+            <mat-option *ngFor='let match of this.data | keyvalue' [value]='match'>
+                {{match.value.MatchName}}
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+
+    <button mat-raised-button (click)='selectMatch()'>Open</button>
+</div>
