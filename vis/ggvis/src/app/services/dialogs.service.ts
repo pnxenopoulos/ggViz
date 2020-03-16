@@ -16,19 +16,14 @@ export class DialogService {
 
     openMatchSearch() {
 
-        this.stateService.getAllGamesIDs().then( observable => {
-            observable.subscribe( data => {
+        this.currentDialog = this.dialog.open( MatchSearchComponent, {
+            data: {},
+            width: '1000px',
+            height: '1000px'
+        });
 
-                this.currentDialog = this.dialog.open( MatchSearchComponent, {
-                    data,
-                    width: '350px',
-                    height: '350px'
-                });
-
-                this.currentDialog.afterClosed().subscribe( result => {
-                    this.currentDialog = null;
-                });
-            });
+        this.currentDialog.afterClosed().subscribe( () => {
+            this.currentDialog = null;
         });
     }
 

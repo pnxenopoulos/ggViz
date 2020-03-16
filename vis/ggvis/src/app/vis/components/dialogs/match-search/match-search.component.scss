@@ -1,8 +1,19 @@
 .match-search-container {
   display: flex;
   flex-direction: column;
+  width: 100%;
+  height: 100%;
+  margin-bottom: 20px;
 }
 
-.match-search-containerr > * {
-  width: 100%;
+.spinner-div {
+  display: flex;
+  flex-grow: 1;
+  justify-content: center;
+  align-items: center;
+}
+
+.match-search-table-row:hover {
+  cursor: pointer;
+  background-color: #e3e8e6;
 }

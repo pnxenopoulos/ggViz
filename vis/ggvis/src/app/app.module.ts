@@ -14,7 +14,7 @@ import { MovementChartComponent } from './vis/components/movement-chart/movement
 import { HttpClientModule } from '@angular/common/http';
 import { MatDialogModule } from '@angular/material';
 import { MatchSearchComponent } from './vis/components/dialogs/match-search/match-search.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -34,7 +34,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     MaterialModule,
     HttpClientModule,
     MatDialogModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ],
   entryComponents: [
     MatchSearchComponent

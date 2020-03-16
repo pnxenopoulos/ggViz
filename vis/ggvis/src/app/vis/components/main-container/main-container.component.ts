@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { MatDialog } from '@angular/material';
-import { MatchSearchComponent } from '../dialogs/match-search/match-search.component';
+// import { HttpClient } from '@angular/common/http';
+// import { MatDialog } from '@angular/material';
+// import { MatchSearchComponent } from '../dialogs/match-search/match-search.component';
+import { FormControl } from '@angular/forms';
+import { EventsService } from 'src/app/services/events.service';
+import { Game } from 'src/app/model/game.model';
+import { StateService } from 'src/app/services/state.service';
+import { Map } from 'src/app/model/map.model';
 
 @Component({
   selector: 'app-main-container',
@@ -10,9 +15,24 @@ import { MatchSearchComponent } from '../dialogs/match-search/match-search.compo
 })
 export class MainContainerComponent implements OnInit {
 
-  constructor() { }
+  mode = new FormControl('over');
+
+  public loadedGame: Game = null;
+  public loadedMap: Map = null;
+
+  constructor(public eventsService: EventsService,
+              public stateService: StateService) { }
 
   ngOnInit() {
+    this.subscribeToEvents();
+  }
+
+
+  subscribeToEvents() {
+    this.eventsService.globalEvents.gameLoaded.subscribe( () => {
+      this.loadedGame = this.stateService.getLoadedGame();
+      this.loadedMap = this.stateService.getLoadedMap();
+    });
 
   }
 

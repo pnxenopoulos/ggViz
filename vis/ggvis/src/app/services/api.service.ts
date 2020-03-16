@@ -11,16 +11,19 @@ export class APIService {
 
     constructor(public http: HttpClient) {}
 
-    async getAllGames() {
+    async getAllGamesDescription() {
 
-        return this.http.get<any>('http://vidagpu.poly.edu:5000/api/games/all');
+
+        const response = await fetch(`${environment.backendURL}/api/games/all`);
+        return await response.json();
 
     }
 
     async getGame(gameID: string) {
 
-        const endpoint = `${environment.backendURL}api/rounds/${gameID}`;
-        return this.http.get<any>(endpoint);
+        const endpoint = `${environment.backendURL}/api/rounds/${gameID}`;
+        const response = await fetch(endpoint);
+        return response.json();
 
     }
 

@@ -1,13 +1,45 @@
-<div class="match-search-container">
+<div class="match-search-container" >
 
-    <mat-form-field>
-        <input type='text' matInput [matAutocomplete]='auto'>
-        <mat-autocomplete #auto="matAutocomplete" [displayWith]='displayName'>
-            <mat-option *ngFor='let match of this.data | keyvalue' [value]='match'>
-                {{match.value.MatchName}}
-            </mat-option>
-        </mat-autocomplete>
-    </mat-form-field>
+  <mat-form-field>
+      <mat-label>Filter</mat-label>
+      <input (keyup)='filterTable()' [(ngModel)]='filterString' type='text' matInput>
+  </mat-form-field>
 
-    <button mat-raised-button (click)='selectMatch()'>Open</button>
+
+  <div class='spinner-div' *ngIf='this.spinnerOn'>
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <table mat-table [dataSource]="listOfGames" class="mat-elevation-z8" *ngIf='!this.spinnerOn'>
+    
+      <!-- Competition Name Column -->
+      <ng-container matColumnDef="CompetitionName">
+        <th mat-header-cell *matHeaderCellDef> Competition </th>
+        <td mat-cell *matCellDef="let element"> {{element.CompetitionName}} </td>
+      </ng-container>
+
+      <!-- Game Date Column -->
+      <ng-container matColumnDef="GameDate">
+        <th mat-header-cell *matHeaderCellDef> Date </th>
+        <td mat-cell *matCellDef="let element"> {{element.GameDate}} </td>
+      </ng-container>
+
+      <!-- Game Time Column -->
+      <ng-container matColumnDef="GameTime">
+        <th mat-header-cell *matHeaderCellDef> Time </th>
+        <td mat-cell *matCellDef="let element"> {{element.GameTime}} </td>
+      </ng-container>
+
+      <!-- Match Name Column -->
+      <ng-container matColumnDef="MatchName">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.MatchName}} </td>
+      </ng-container>
+    
+    
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)='selectMatch(row)' class='match-search-table-row'></tr>
+  </table>
+
 </div>
+

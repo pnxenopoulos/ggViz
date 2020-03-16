@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { Slider } from '../model/slider.model';
 import { APIService } from './api.service';
 import { Game } from '../model/game.model';
-import { observable } from 'rxjs';
 import { EventsService } from './events.service';
 import { DataHandler } from '../utils/data-handler.utils';
+import { Map } from '../model/map.model';
+import { Round } from '../model/round.model';
 
 @Injectable({
     providedIn: 'root'
@@ -14,9 +15,9 @@ export class StateService {
 
     private slider: Slider;
 
-    private game: Game;
-    private map: any;
-    private round: any;
+    private loadedGame: Game = null;
+    private selectedMap: Map = null;
+    private selectedRound: Round = null;
 
     // formatted trajectories
     private trajectories: any;
@@ -35,9 +36,22 @@ export class StateService {
         return this.players;
     }
 
-    getAllGamesIDs() {
+    getLoadedGame(): Game {
+        return this.loadedGame;
+    }
 
-        return this.apiService.getAllGames();
+    getLoadedMap(): Map {
+        return this.selectedMap;
+    }
+
+    getAllMaps(): Map[] {
+        return this.loadedGame.getAllMaps();
+    }
+
+    async getAllGamesIDs() {
+
+        const gameIDS = await this.apiService.getAllGamesDescription();
+        return gameIDS;
     }
 
     loadTrajectories(gameID: string, mapName: string, roundNumber: number) {
@@ -52,14 +66,26 @@ export class StateService {
 
     }
 
-    loadNewGame(gameID: string) {
+    async loadNewGame(game: any) {
+        
+        // requesting game data
+        const gameData = await this.apiService.getGame(game.id);
+        
+        // creating new game data structure
+        const newGame: Game = new Game(game.id, [])
+        newGame.attachMaps(gameData);
+        
+        // saving reference
+        this.loadedGame = newGame;
 
-        this.game = new Game(gameID);
-        this.apiService.getGame(this.game.gameID).then( obs => {
-            obs.subscribe( data => {
-                console.log(data);
-            });
-        });
+        // saving first map and first round 
+        this.selectedMap = newGame.getFirstMap();
+        this.selectedRound = this.selectedMap.getFirstRound();
+
+        // firing game loaded event
+        this.eventsService.globalEvents.gameLoaded.emit();
+
+        return;
 
     }
 }

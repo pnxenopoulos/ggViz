@@ -6,4 +6,9 @@
 
 <mat-menu #appMenu="matMenu">
     <button mat-menu-item (click)='openMatchSearch()'>Search Match</button>
+    <button mat-menu-item [disabled]='this.mapsLoaded.length === 0' [matMenuTriggerFor]="gameMaps">Maps</button>
+</mat-menu>
+
+<mat-menu #gameMaps="matMenu">
+    <button mat-menu-item *ngFor='let map of this.mapsLoaded'>{{ map.name }}</button>
 </mat-menu>

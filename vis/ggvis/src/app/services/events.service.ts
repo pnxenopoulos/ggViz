@@ -16,5 +16,9 @@ export class EventsService {
         roundLoaded: new EventEmitter<any>()
     };
 
+    public globalEvents = {
+        gameLoaded: new EventEmitter<any>()
+    }
+
 
 }

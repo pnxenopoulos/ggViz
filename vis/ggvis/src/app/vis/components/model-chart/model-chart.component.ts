@@ -10,6 +10,8 @@ export class ModelChartComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log('Init model chart component');
+  }
 
 }

@@ -6,7 +6,11 @@ import { MatButtonModule,
         MatFormFieldModule,
         MatInputModule,
         MatSelectModule,
-        MatAutocompleteModule } from '@angular/material';
+        MatAutocompleteModule, 
+        MatSidenavModule,
+        MatProgressSpinnerModule,
+        MatTableModule,
+        MatTabsModule} from '@angular/material';
 import { NgModule } from '@angular/core';
 
 @NgModule({
@@ -19,7 +23,11 @@ import { NgModule } from '@angular/core';
         MatFormFieldModule,
         MatInputModule,
         MatSelectModule,
-        MatAutocompleteModule],
+        MatAutocompleteModule,
+        MatSidenavModule,
+        MatProgressSpinnerModule,
+        MatTableModule,
+        MatTabsModule],
     exports: [
         MatButtonModule,
         MatToolbarModule,
@@ -29,7 +37,11 @@ import { NgModule } from '@angular/core';
         MatFormFieldModule,
         MatInputModule,
         MatSelectModule,
-        MatAutocompleteModule]
+        MatAutocompleteModule,
+        MatSidenavModule,
+        MatProgressSpinnerModule,
+        MatTableModule,
+        MatTabsModule]
 })
 
 export class MaterialModule { }

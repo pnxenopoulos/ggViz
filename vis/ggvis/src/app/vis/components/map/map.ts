@@ -1,23 +1,27 @@
 import { ElementRef } from '@angular/core';
+import { Map } from 'src/app/model/map.model';
 
-export class Map {
+export class MapView {
 
-    private divRef: ElementRef;
-    private canvasRef: ElementRef;
     private canvasCtx: CanvasRenderingContext2D;
 
+    private mapImage: any = null;
 
-    private imageTest: any;
+    constructor(public divRef: ElementRef, 
+                public canvasRef: ElementRef, 
+                public loadedMap: Map) {
 
-    constructor(divRef: ElementRef, canvasRef: ElementRef) {
-
-        this. divRef = divRef;
-        this.canvasRef = canvasRef;
         this.canvasCtx = canvasRef.nativeElement.getContext('2d');
         this.resizeCanvas();
+        this.loadMapImage();
 
-        this.imageTest = new Image();
-        this.imageTest.src = '../../../../assets/images/de_train.png';
+    }
+
+    loadMapImage() {
+        
+        this.mapImage = new Image();
+        this.mapImage.src = `../../../../assets/images/${this.loadedMap.name}.png`;
+        this.mapImage.onload = () => { this.drawBackground(); }
 
     }
 
@@ -34,7 +38,7 @@ export class Map {
     }
 
     drawBackground() {
-        this.canvasCtx.drawImage(this.imageTest, 0, 0, this.canvasRef.nativeElement.width, this.canvasRef.nativeElement.height);
+        this.canvasCtx.drawImage(this.mapImage, 0, 0, this.canvasRef.nativeElement.width, this.canvasRef.nativeElement.height);
     }
 
     drawPlayerTrajectory(arrayOfPoints: any[]) {
