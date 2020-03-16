@@ -28,6 +28,14 @@ export class MainContainerComponent implements OnInit {
   }
 
 
+  // avoid null reference on the view
+  getVISRounds(){
+    if(this.loadedMap){
+      return this.loadedMap.getAllRounds();
+    }
+    return [];
+  }
+
   subscribeToEvents() {
     this.eventsService.globalEvents.gameLoaded.subscribe( () => {
       this.loadedGame = this.stateService.getLoadedGame();
@@ -35,6 +43,5 @@ export class MainContainerComponent implements OnInit {
     });
 
   }
-
 
 }

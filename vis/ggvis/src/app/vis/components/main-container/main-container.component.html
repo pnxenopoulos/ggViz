@@ -10,11 +10,11 @@
     <mat-sidenav-content class='sidenav-content-container'>
         <p><button mat-button (click)="sidenav.toggle()">Toggle</button></p>
 
-        <div class="container" *ngIf="this.loadedMap !== null">
+        <div class="container" >
             <div class='first-row'>
                 <div class='charts'>
                     <mat-tab-group class='tab-group'>
-                        <mat-tab *ngFor="let round of this.loadedMap.rounds" label={{round.roundNumber}}>  
+                        <mat-tab *ngFor="let round of this.getVISRounds()" label={{round.roundNumber}}>  
                             <ng-template matTabContent>
                                 <div class='tab-body'>
                                     <div class='model-chart'>

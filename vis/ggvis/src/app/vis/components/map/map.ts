@@ -1,7 +1,11 @@
 import { ElementRef } from '@angular/core';
 import { Map } from 'src/app/model/map.model';
+import { Position } from 'src/app/model/position.model';
+import * as _ from 'lodash';
 
 export class MapView {
+
+    private originalCoordinateSystem: { x: number, y:  number } = { x: 1024, y: 1024};
 
     private canvasCtx: CanvasRenderingContext2D;
 
@@ -34,26 +38,30 @@ export class MapView {
 
         this.canvasRef.nativeElement.width = smallest;
         this.canvasRef.nativeElement.height = smallest;
-
     }
 
     drawBackground() {
         this.canvasCtx.drawImage(this.mapImage, 0, 0, this.canvasRef.nativeElement.width, this.canvasRef.nativeElement.height);
     }
 
-    drawPlayerTrajectory(arrayOfPoints: any[]) {
+    drawPlayerTrajectory(trajectorySlice: Position[], playerSide: string) {
+
+        const viewportWidth: number = this.canvasRef.nativeElement.getBoundingClientRect().width;
+        const viewportHeight: number = this.canvasRef.nativeElement.getBoundingClientRect().height;
 
         this.canvasCtx.lineWidth = 0.5;
-        this.canvasCtx.strokeStyle = 'red';
+        this.canvasCtx.strokeStyle = playerSide == 'CT' ? 'blue' : 'red';
 
         this.canvasCtx.beginPath();
-        for (let i = 0; i < arrayOfPoints.length; i++) {
-            const x = arrayOfPoints[i][0];
-            const y = arrayOfPoints[i][1];
-            this.canvasCtx.lineTo(x, y);
-        }
-        this.canvasCtx.stroke();
+        _.forEach( trajectorySlice, position =>{
 
+            const x = position.getNormalizedX(viewportWidth, 1024);
+            const y = position.getNormalizedY(viewportHeight, 1024);
+
+            this.canvasCtx.lineTo(x, y);
+
+        });
+        this.canvasCtx.stroke();
     }
 
     clearCanvas() {

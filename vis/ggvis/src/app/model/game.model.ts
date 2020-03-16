@@ -16,13 +16,17 @@ export class Game {
         })
     }
 
-    public getAllMaps(){
+    public getAllMaps(): Map[]{
         return this.maps;
     }
 
 
-    public getFirstMap(){
+    public getFirstMap(): Map{
         return this.maps[0];
+    }
+
+    public getMap(mapName: string): Map{
+        return this.maps.filter( map => { map.name === mapName })[0];
     }
 
 }

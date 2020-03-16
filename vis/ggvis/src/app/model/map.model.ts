@@ -27,8 +27,12 @@ export class Map {
 
     }
 
-    public getFirstRound(){
-        return this.rounds[0];
+    public getRound(roundNumber: number): Round{
+        return this.rounds[roundNumber];
+    }
+
+    public getAllRounds(): Round[]{
+        return this.rounds;
     }
 
 }

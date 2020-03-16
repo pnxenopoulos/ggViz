@@ -12,27 +12,22 @@ export class APIService {
     constructor(public http: HttpClient) {}
 
     async getAllGamesDescription() {
-
-
         const response = await fetch(`${environment.backendURL}/api/games/all`);
-        return await response.json();
-
+        return response.json();
     }
 
     async getGame(gameID: string) {
-
         const endpoint = `${environment.backendURL}/api/rounds/${gameID}`;
         const response = await fetch(endpoint);
         return response.json();
-
     }
 
 
     async getTrajectories(gameID: string, mapName: string, roundNumber: number) {
 
-        const endpoint = `${environment.backendURL}api/footsteps/${gameID}/${mapName}/${roundNumber}`;
-        return this.http.get<any>(endpoint);
-
+        const endpoint = `${environment.backendURL}/api/footsteps/${gameID}/${mapName}/${roundNumber}`;
+        const trajectories = await fetch(endpoint);
+        return  trajectories.json();
     }
 
 }

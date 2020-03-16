@@ -32,7 +32,7 @@ export class NavbarComponent implements OnInit {
   }
 
   isGameLoaded(){
-    return this.mapsLoaded.length === 0
+    return this.mapsLoaded.length === 0;
   }
 
 }

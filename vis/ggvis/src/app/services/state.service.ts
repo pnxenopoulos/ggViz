@@ -6,6 +6,8 @@ import { EventsService } from './events.service';
 import { DataHandler } from '../utils/data-handler.utils';
 import { Map } from '../model/map.model';
 import { Round } from '../model/round.model';
+import { Player } from '../model/player.model';
+import { Position } from '../model/position.model';
 
 @Injectable({
     providedIn: 'root'
@@ -19,17 +21,18 @@ export class StateService {
     private selectedMap: Map = null;
     private selectedRound: Round = null;
 
-    // formatted trajectories
-    private trajectories: any;
-    private players: any;
+    // players in game
+    private players: { [id: string] : Player } = {};
 
     constructor(public apiService: APIService, public eventsService: EventsService) {}
 
 
-    getPlayerTrajectory(playerID: string, timeSlice: number) {
+    getSlider(): Slider {
+        return this.slider;
+    }
 
-        return this.trajectories[playerID].slice(0, timeSlice);
-
+    getAllMaps(): Map[] {
+        return this.loadedGame.getAllMaps();
     }
 
     getAllPlayerIDs() {
@@ -44,26 +47,40 @@ export class StateService {
         return this.selectedMap;
     }
 
-    getAllMaps(): Map[] {
-        return this.loadedGame.getAllMaps();
+    setCurrentTimeStep(timeStep: number){
+        this.slider.setCurrentTimeSet(timeStep);
+        this.eventsService.slider.valueChanged.emit();
+    }
+
+    getPlayerTrajectory(playerName: string, timeSlice: number) : Position[] {
+        return this.players[playerName].trajectory.getTrajectorySlice(0, timeSlice);
+    }
+
+    getPlayer(playerName: string){
+        return this.players[playerName];
+    }
+
+    getPlayersName(): string[] {
+        return Object.keys(this.players);
+    }
+
+    async selectRound(roundNumber: number) {
+        this.selectedRound = this.selectedMap.getRound(roundNumber);
+        const nTimeSteps: number = await this.loadTrajectories(this.loadedGame.id, this.selectedMap.name, this.selectedRound.roundNumber);
+        this.createSlider(nTimeSteps);
+    }
+
+    createSlider(nTimeSteps: number){
+        this.slider = new Slider(nTimeSteps);
+    }
+
+    selectMap(mapName?: string): void {
+        this.selectedMap = mapName ? this.loadedGame.getMap(mapName) : this.loadedGame.getFirstMap();
     }
 
     async getAllGamesIDs() {
-
         const gameIDS = await this.apiService.getAllGamesDescription();
         return gameIDS;
-    }
-
-    loadTrajectories(gameID: string, mapName: string, roundNumber: number) {
-
-        this.apiService.getTrajectories(gameID, mapName, roundNumber).then( obs => {
-            obs.subscribe( data => {
-                this.trajectories = DataHandler.formatTrajectories(data, 'test');
-                this.players = Object.keys(this.trajectories);
-                this.eventsService.apiEvents.roundLoaded.emit();
-            });
-        });
-
     }
 
     async loadNewGame(game: any) {
@@ -79,13 +96,23 @@ export class StateService {
         this.loadedGame = newGame;
 
         // saving first map and first round 
-        this.selectedMap = newGame.getFirstMap();
-        this.selectedRound = this.selectedMap.getFirstRound();
+        this.selectMap();
+        await this.selectRound(0);
 
         // firing game loaded event
         this.eventsService.globalEvents.gameLoaded.emit();
 
         return;
+
+    }
+
+    async loadTrajectories(gameID: string, mapName: string, roundNumber: number) {
+
+        const trajectories = await this.apiService.getTrajectories(gameID, mapName, roundNumber);
+        const nTimesteps: number = Object.keys(trajectories).length;
+        this.players = DataHandler.formatTrajectories(trajectories);
+
+        return nTimesteps;
 
     }
 }

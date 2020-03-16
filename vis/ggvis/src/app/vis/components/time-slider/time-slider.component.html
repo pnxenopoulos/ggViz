@@ -1,4 +1,4 @@
-<mat-slider 
+<mat-slider *ngIf="this.slider !== null"
     [value] = 'this.slider.getCurrentTimeSet()'
     [min] = 'this.slider.getRange()[2]'
     [max] = 'this.slider.getRange()[1]'

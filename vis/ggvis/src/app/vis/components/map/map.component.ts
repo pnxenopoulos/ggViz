@@ -4,6 +4,7 @@ import { Slider } from 'src/app/model/slider.model';
 import { StateService } from 'src/app/services/state.service';
 import * as _ from 'lodash';
 import { MapView } from './map';
+import { Player } from 'src/app/model/player.model';
 
 
 @Component({
@@ -20,14 +21,13 @@ export class MapComponent implements OnInit {
   @ViewChild('mapContainerRef', {static: true}) mapContainer: ElementRef;
   @ViewChild('mapCanvasRef', {static: true}) mapCanvasRef: ElementRef;
 
-  constructor(public events: EventsService, public stateService: StateService) { }
+  constructor(public eventsService: EventsService, public stateService: StateService) { }
 
   ngOnInit() {
+
     // subscribing to events
     this.subscribeToEvents();
-    
-    // create a map object
-    this.createMap();
+
   }
 
   createMap() {
@@ -36,20 +36,36 @@ export class MapComponent implements OnInit {
 
   subscribeToEvents() {
 
-    this.events.globalEvents.gameLoaded.subscribe( () => {
+    this.eventsService.globalEvents.gameLoaded.subscribe( () => {
       this.createMap();
     });
 
-    this.events.slider.valueChanged.subscribe((slider) => {
-      this.updateMap(slider);
+    this.eventsService.slider.valueChanged.subscribe( () => {
+      this.updateMap();
     });
 
-    this.events.apiEvents.roundLoaded.subscribe(() => {
-      // console.log('round loaded');
-    });
+    // this.events.slider.valueChanged.subscribe((slider) => {
+    //   this.updateMap(slider);
+    // });
+
+    // this.events.apiEvents.roundLoaded.subscribe(() => {
+    //   // console.log('round loaded');
+    // });
   }
 
-  updateMap(slider: Slider) {
+  updateMap() {
+
+    const currentSlider = this.stateService.getSlider();
+    
+    const players = this.stateService.getPlayersName();
+    _.forEach(players, player => {
+      
+      const currentTrajectory = this.stateService.getPlayerTrajectory(player, currentSlider.getCurrentTimeSet());
+      const currentPlayer: Player = this.stateService.getPlayer(player);
+      this.map.drawPlayerTrajectory(currentTrajectory, currentPlayer.side);
+
+    });
+
     // this.map.clearCanvas();
     // const players = this.stateService.getAllPlayerIDs();
     // this.map.drawBackground();

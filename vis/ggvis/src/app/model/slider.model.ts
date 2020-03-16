@@ -3,9 +3,9 @@ export class Slider {
     timeSet: number;
     range: number[];
 
-    constructor(range: number[]) {
+    constructor(nTimeSteps: number) {
 
-        this.range = range;
+        this.range = [0, nTimeSteps];
         this.timeSet = 0;
 
     }
