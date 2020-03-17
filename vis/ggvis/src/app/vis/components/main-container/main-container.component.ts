@@ -20,6 +20,8 @@ export class MainContainerComponent implements OnInit {
   public loadedGame: Game = null;
   public loadedMap: Map = null;
 
+  public roundLoading: boolean = false;
+
   constructor(public eventsService: EventsService,
               public stateService: StateService) { }
 
@@ -41,7 +43,13 @@ export class MainContainerComponent implements OnInit {
       this.loadedGame = this.stateService.getLoadedGame();
       this.loadedMap = this.stateService.getLoadedMap();
     });
+  }
 
+  onTabChange(event) {
+    this.roundLoading = true;
+    this.stateService.selectRound(event.index).then( () => {
+      this.roundLoading = false;
+    });
   }
 
 }

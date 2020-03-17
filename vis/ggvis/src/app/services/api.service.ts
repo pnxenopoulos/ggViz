@@ -30,4 +30,25 @@ export class APIService {
         return  trajectories.json();
     }
 
+    async getMovementChartData(nTicks: number) {
+
+        const movementChart: any[] = [];
+        let currentPoint: number = 0;
+        let multiplier: number = 1;
+        for(let i = 0; i < nTicks; i++){
+
+            if(currentPoint > 9.8) {
+                multiplier = -1.0;
+            }else if(currentPoint < 0.2){
+                multiplier = 1.0;
+            }
+
+            currentPoint += 0.1 * multiplier;
+            movementChart.push({index: i, value: currentPoint});
+        }
+        
+        return movementChart;
+
+    }
+
 }

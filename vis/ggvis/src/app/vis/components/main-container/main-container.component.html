@@ -1,6 +1,10 @@
 <app-navbar></app-navbar>
 
-<mat-sidenav-container class="sidenav-container">
+<div class='spinner-div-main-container' *ngIf='this.roundLoading'>
+    <mat-spinner></mat-spinner>
+</div>
+
+<mat-sidenav-container class="sidenav-container" [ngClass]="{'disabled': this.roundLoading}" >
 
     <mat-sidenav #sidenav [mode]="mode.value">
         <p><button mat-button (click)="sidenav.toggle()">Toggle</button></p>
@@ -13,8 +17,8 @@
         <div class="container" >
             <div class='first-row'>
                 <div class='charts'>
-                    <mat-tab-group class='tab-group'>
-                        <mat-tab *ngFor="let round of this.getVISRounds()" label={{round.roundNumber}}>  
+                    <mat-tab-group class='tab-group' (selectedTabChange)="onTabChange($event)">
+                        <mat-tab *ngFor="let round of this.getVISRounds()" label={{round.roundNumber}} >  
                             <ng-template matTabContent>
                                 <div class='tab-body'>
                                     <div class='model-chart'>

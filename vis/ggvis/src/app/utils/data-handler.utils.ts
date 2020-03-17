@@ -31,13 +31,6 @@ export class DataHandler {
                 const currentPosition: Position = new Position(playerInfo.XViz, playerInfo.YViz);
                 currentPlayer.trajectory.addPosition(currentPosition);
 
-                // if (playerKey in players) {
-                //    players[playerKey].push(this.normalizeTrajectories(playerInfo.XViz, playerInfo.YViz));
-                // } else {
-                //     players[playerKey] = [];
-                //     players[playerKey].push(this.normalizeTrajectories(playerInfo.XViz, playerInfo.YViz));
-                // }
-
 
             });
 
@@ -61,15 +54,6 @@ export class DataHandler {
         const trajectory: Trajectory = new Trajectory();
         const player: Player = new Player(playerInfo.PlayerName, playerInfo.Side, playerInfo.Team, trajectory);
         return player;
-
-    }
-
-    private static normalizeTrajectories(x: number, y: number){
-
-        const xNorm = (x * 811) / 1024;
-        const yNorm = (y * 811) / 1024;
-
-        return [xNorm, yNorm];
 
     }
 }

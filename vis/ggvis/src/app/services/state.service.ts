@@ -21,7 +21,7 @@ export class StateService {
     private selectedMap: Map = null;
     private selectedRound: Round = null;
 
-    // players in game
+    // players in round
     private players: { [id: string] : Player } = {};
 
     constructor(public apiService: APIService, public eventsService: EventsService) {}
@@ -64,10 +64,28 @@ export class StateService {
         return Object.keys(this.players);
     }
 
-    async selectRound(roundNumber: number) {
+    getSelectedRound(): Round{
+        return this.selectedRound;
+    }
+
+    async selectRound(roundNumber: number, ) {
+
         this.selectedRound = this.selectedMap.getRound(roundNumber);
         const nTimeSteps: number = await this.loadTrajectories(this.loadedGame.id, this.selectedMap.name, this.selectedRound.roundNumber);
+        
+        // movement chart Data
+        const movementChartData = await this.apiService.getMovementChartData(nTimeSteps);
+        this.selectedRound.attachMovementData(movementChartData);
+
+        // win probability Data
+        // TODO: Request to win probability data
+
         this.createSlider(nTimeSteps);
+
+        this.eventsService.globalEvents.roundLoaded.emit();
+        
+        return;
+
     }
 
     createSlider(nTimeSteps: number){
@@ -97,7 +115,7 @@ export class StateService {
 
         // saving first map and first round 
         this.selectMap();
-        await this.selectRound(0);
+        // await this.selectRound(0, true);
 
         // firing game loaded event
         this.eventsService.globalEvents.gameLoaded.emit();

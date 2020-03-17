@@ -1,5 +1,7 @@
 export class Round {
 
+    public movementData: number[] = null;
+    public winProbabilityData: any = null;
 
     constructor(
         public roundNumber: number,
@@ -11,5 +13,10 @@ export class Round {
         public endCTScore: number,
         public endTScore: number
     ) {}
+
+
+    attachMovementData(movementData: number[]){
+        this.movementData = movementData;
+    }
 
 }

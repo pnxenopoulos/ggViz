@@ -8,8 +8,7 @@ export class Map {
 
 
     public attachRounds( rawRoundData: any ){
-
-
+        
         Object.entries( rawRoundData ).forEach( roundNumber => {
 
             const round: Round = new Round(

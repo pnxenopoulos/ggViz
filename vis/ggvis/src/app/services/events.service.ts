@@ -12,11 +12,8 @@ export class EventsService {
         valueChanged: new EventEmitter<Slider>()
     };
 
-    public apiEvents = {
-        roundLoaded: new EventEmitter<any>()
-    };
-
     public globalEvents = {
+        roundLoaded: new EventEmitter<any>(),
         gameLoaded: new EventEmitter<any>()
     }
 

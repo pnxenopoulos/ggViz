@@ -44,20 +44,26 @@ export class MapComponent implements OnInit {
       this.updateMap();
     });
 
+    this.eventsService.globalEvents.roundLoaded.subscribe(() => {
+      this.updateMap();
+    });
+
     // this.events.slider.valueChanged.subscribe((slider) => {
     //   this.updateMap(slider);
     // });
 
-    // this.events.apiEvents.roundLoaded.subscribe(() => {
-    //   // console.log('round loaded');
-    // });
+    
   }
 
   updateMap() {
 
     const currentSlider = this.stateService.getSlider();
     
+
     const players = this.stateService.getPlayersName();
+    
+    this.map.clearCanvas();
+    this.map.drawBackground();
     _.forEach(players, player => {
       
       const currentTrajectory = this.stateService.getPlayerTrajectory(player, currentSlider.getCurrentTimeSet());

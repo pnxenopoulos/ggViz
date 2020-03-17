@@ -16,16 +16,23 @@ export class TimeSliderComponent implements OnInit {
   constructor(public eventsService: EventsService, public stateService: StateService) {}
 
   ngOnInit() {
-    this.eventsService.globalEvents.gameLoaded.subscribe( () => {
+    this.subscribeToEvents();
+  }
+
+
+  subscribeToEvents() {
+
+    // this.eventsService.globalEvents.gameLoaded.subscribe( () => {
+    //   this.slider = this.stateService.getSlider();
+    // });
+
+    this.eventsService.globalEvents.roundLoaded.subscribe( () => {
       this.slider = this.stateService.getSlider();
-    })
+    });
   }
 
   slide(event: MatSliderChange) {
-
     this.stateService.setCurrentTimeStep(event.value);
-    // this.slider.setCurrentTimeSet(event.value);
-    // this.events.slider.valueChanged.emit(this.slider);
   }
 
 }

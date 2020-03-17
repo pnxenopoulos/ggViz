@@ -49,18 +49,19 @@ export class MapView {
         const viewportWidth: number = this.canvasRef.nativeElement.getBoundingClientRect().width;
         const viewportHeight: number = this.canvasRef.nativeElement.getBoundingClientRect().height;
 
-        this.canvasCtx.lineWidth = 0.5;
+        this.canvasCtx.lineWidth = 1.0;
         this.canvasCtx.strokeStyle = playerSide == 'CT' ? 'blue' : 'red';
 
         this.canvasCtx.beginPath();
         _.forEach( trajectorySlice, position =>{
 
-            const x = position.getNormalizedX(viewportWidth, 1024);
-            const y = position.getNormalizedY(viewportHeight, 1024);
+            const x = position.getNormalizedX(viewportWidth, this.originalCoordinateSystem.x);
+            const y = position.getNormalizedY(viewportHeight, this.originalCoordinateSystem.y);
 
             this.canvasCtx.lineTo(x, y);
 
         });
+
         this.canvasCtx.stroke();
     }
 
