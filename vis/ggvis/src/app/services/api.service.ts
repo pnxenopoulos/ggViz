@@ -51,4 +51,13 @@ export class APIService {
 
     }
 
+    async getWinProbabilitiesAndDistances(gameID: string, mapName: string, roundNumber: number){
+
+        const endpoint = `${environment.backendURL}/api/win_prob/${gameID}/${mapName}/${roundNumber}`;
+        const winprobabilities = await fetch(endpoint);
+        return winprobabilities.json(); 
+    
+
+    }
+
 }

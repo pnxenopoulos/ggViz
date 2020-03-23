@@ -5,6 +5,40 @@ import { Position } from '../model/position.model';
 
 export class DataHandler {
 
+    static formatWinProbabilityAndMovement(winProbAndMovement: any) {
+
+        const winProbabilities: { timestamp: number, CTWinProb: number, TWinProb: number } [] = [];
+        const movementData: {timestamp: number, CTDistBombsiteA: number, CTDistBombsiteB: number,
+                            TDistBombsiteA: number, TDistBombsiteB: number} [] = [];
+
+        let currentTime: number = 0;
+        _.forEach(winProbAndMovement, tick => {
+
+            const currentWinProbObj = { 
+                timestamp: currentTime,
+                CTWinProb: tick.CTWinProb,
+                TWinProb: 1 - tick.CTWinProb,
+            };
+
+            const currentMovementObj = {
+                timestamp: currentTime,
+                CTDistBombsiteA: tick.CTDistBombsiteA,
+                CTDistBombsiteB: tick.CTDistBombsiteB,
+                TDistBombsiteA: tick.TDistBombsiteA,
+                TDistBombsiteB: tick.TDistBombsiteB
+            };
+
+
+            winProbabilities.push(currentWinProbObj);
+            movementData.push(currentMovementObj);
+
+            currentTime++;
+        });
+
+
+        return { winProbability: winProbabilities, movement: movementData };
+    }
+
     static formatTrajectories(trajectories: any):  { [id: string] : Player } {
 
         const players: { [id: string] : Player } = {};

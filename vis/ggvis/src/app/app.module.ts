@@ -15,6 +15,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatDialogModule } from '@angular/material';
 import { MatchSearchComponent } from './vis/components/dialogs/match-search/match-search.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { RangeSelectorComponent } from './vis/components/range-selector/range-selector.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     MapComponent,
     ModelChartComponent,
     MovementChartComponent,
-    MatchSearchComponent
+    MatchSearchComponent,
+    RangeSelectorComponent
   ],
   imports: [
     BrowserModule,

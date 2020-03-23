@@ -101,6 +101,9 @@ export class MovementChart {
             .attr('fill', 'none')
             .attr('d', this.line);
 
+        
+        
+
         // this.groupRef.selectAll(".dot")    
         //     .data(this.movementChartData)
         //     .enter()

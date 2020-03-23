@@ -21,6 +21,7 @@ export class StateService {
     private selectedMap: Map = null;
     private selectedRound: Round = null;
 
+
     // players in round
     private players: { [id: string] : Player } = {};
 
@@ -72,13 +73,18 @@ export class StateService {
 
         this.selectedRound = this.selectedMap.getRound(roundNumber);
         const nTimeSteps: number = await this.loadTrajectories(this.loadedGame.id, this.selectedMap.name, this.selectedRound.roundNumber);
-        
-        // movement chart Data
-        const movementChartData = await this.apiService.getMovementChartData(nTimeSteps);
-        this.selectedRound.attachMovementData(movementChartData);
 
         // win probability Data
         // TODO: Request to win probability data
+        let winProbabilitiesAndDistances = await this.apiService.getWinProbabilitiesAndDistances(this.loadedGame.id, this.selectedMap.name, this.selectedRound.roundNumber);
+        winProbabilitiesAndDistances = DataHandler.formatWinProbabilityAndMovement(winProbabilitiesAndDistances);
+        this.selectedRound.attachWinProbabilityData(winProbabilitiesAndDistances.winProbability);
+
+        // Fake Data
+        // movement chart Data
+        const movementChartData = await this.apiService.getMovementChartData(nTimeSteps);
+        this.selectedRound.attachMovementData(movementChartData);
+        // Fake Data
 
         this.createSlider(nTimeSteps);
 
@@ -121,6 +127,10 @@ export class StateService {
         this.eventsService.globalEvents.gameLoaded.emit();
 
         return;
+
+    }
+
+    async loadWinProbsAndDistances(){
 
     }
 
