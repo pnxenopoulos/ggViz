@@ -32,8 +32,6 @@ export class ModelChart {
         this.createLineGenerators();
         this.updateChart();
 
-        console.log(modelChartData);
-
     }
 
 
@@ -124,7 +122,7 @@ export class ModelChart {
             .datum(this.modelChartData)  
             .append('path')
             .attr('class', 'line')
-            .attr('stroke', 'blue')
+            .attr('stroke', '#5d79ae')
             .attr('stroke-width', 2)
             .attr('fill', 'none')
             .attr('d', this.ctLine);
@@ -133,7 +131,7 @@ export class ModelChart {
             .datum(this.modelChartData)  
             .append('path')
             .attr('class', 'line')
-            .attr('stroke', 'red')
+            .attr('stroke', '#de9b35')
             .attr('stroke-width', 2)
             .attr('fill', 'none')
             .attr('d', this.tLine);

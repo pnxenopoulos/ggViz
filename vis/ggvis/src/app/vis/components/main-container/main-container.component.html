@@ -24,8 +24,11 @@
                                     <div class='model-chart'>
                                         <app-model-chart></app-model-chart>
                                     </div>
-                                    <div class='movement-chart'>
-                                        <app-movement-chart></app-movement-chart>
+                                    <div class='movement-chart movement-chart-CT'>
+                                        <app-movement-chart teamSide='CT'></app-movement-chart>
+                                    </div>
+                                    <div class='movement-chart movement-chart-T'>
+                                        <app-movement-chart teamSide='T'></app-movement-chart>
                                     </div>
                                 </div> 
                             </ng-template>
@@ -47,6 +50,10 @@
                 <app-range-selector></app-range-selector>
             </div>
             
+            <div class='fourth-row'>
+                <app-annotation-component></app-annotation-component>
+            </div>
+
         </div> 
 
 

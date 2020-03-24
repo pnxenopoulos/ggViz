@@ -1,0 +1,32 @@
+:host {
+    display: flex;
+    flex: 1;
+}
+
+.annotation-table-container{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.annotation-control {
+    flex:1;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.annotate-button{
+    width: 3%;
+    height: 50%;
+    margin: 10px;
+}
+
+.annotation-table {
+    flex: 5;
+}
+
+table {
+    width: 100%;
+}

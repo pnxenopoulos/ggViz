@@ -8,8 +8,9 @@ export class DataHandler {
     static formatWinProbabilityAndMovement(winProbAndMovement: any) {
 
         const winProbabilities: { timestamp: number, CTWinProb: number, TWinProb: number } [] = [];
-        const movementData: {timestamp: number, CTDistBombsiteA: number, CTDistBombsiteB: number,
-                            TDistBombsiteA: number, TDistBombsiteB: number} [] = [];
+
+        const movementDataCT: {timestamp: number, distBombsiteA: number, distBombsiteB: number} [] = [];
+        const movementDataT: {timestamp: number, distBombsiteA: number, distBombsiteB: number} [] = [];
 
         let currentTime: number = 0;
         _.forEach(winProbAndMovement, tick => {
@@ -20,23 +21,29 @@ export class DataHandler {
                 TWinProb: 1 - tick.CTWinProb,
             };
 
-            const currentMovementObj = {
+            const currentMovementCTObj = {
                 timestamp: currentTime,
-                CTDistBombsiteA: tick.CTDistBombsiteA,
-                CTDistBombsiteB: tick.CTDistBombsiteB,
-                TDistBombsiteA: tick.TDistBombsiteA,
-                TDistBombsiteB: tick.TDistBombsiteB
+                distBombsiteA: tick.CTDistBombsiteA,
+                distBombsiteB: tick.CTDistBombsiteB
             };
+
+            const currentMovementTObj = {
+                timestamp: currentTime,
+                distBombsiteA: tick.TDistBombsiteA,
+                distBombsiteB: tick.TDistBombsiteB
+            }
 
 
             winProbabilities.push(currentWinProbObj);
-            movementData.push(currentMovementObj);
+            movementDataCT.push(currentMovementCTObj);
+            movementDataT.push(currentMovementTObj)
+
 
             currentTime++;
         });
 
 
-        return { winProbability: winProbabilities, movement: movementData };
+        return { winProbability: winProbabilities, movementCT: movementDataCT, movementT: movementDataT };
     }
 
     static formatTrajectories(trajectories: any):  { [id: string] : Player } {

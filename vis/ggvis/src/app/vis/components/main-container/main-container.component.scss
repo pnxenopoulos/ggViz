@@ -49,7 +49,7 @@ $fontsize: 18px;
 
 .second-row {
   width: 100%;
-  height: 5%;
+  height: 3%;
 }
 
 .third-row {
@@ -92,7 +92,7 @@ $fontsize: 18px;
 
 .model-chart {
   width: 100%;
-  height: 50%;
+  height: 33%;
 }
 
 button {
@@ -102,5 +102,11 @@ button {
 
 .movement-chart {
   width: 100%;
-  height: 50%;
+  height: 33%;
+}
+
+.fourth-row{
+  width: 100%;
+  height: 30%;
+  display: flex;
 }

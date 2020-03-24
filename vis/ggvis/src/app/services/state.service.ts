@@ -80,11 +80,10 @@ export class StateService {
         winProbabilitiesAndDistances = DataHandler.formatWinProbabilityAndMovement(winProbabilitiesAndDistances);
         this.selectedRound.attachWinProbabilityData(winProbabilitiesAndDistances.winProbability);
 
-        // Fake Data
         // movement chart Data
-        const movementChartData = await this.apiService.getMovementChartData(nTimeSteps);
-        this.selectedRound.attachMovementData(movementChartData);
-        // Fake Data
+        // const movementChartData = await this.apiService.getMovementChartData(nTimeSteps);
+        this.selectedRound.attachMovementData(winProbabilitiesAndDistances.movementCT, 'CT');
+        this.selectedRound.attachMovementData(winProbabilitiesAndDistances.movementT, 'T');
 
         this.createSlider(nTimeSteps);
 

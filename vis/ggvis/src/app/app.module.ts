@@ -16,6 +16,7 @@ import { MatDialogModule } from '@angular/material';
 import { MatchSearchComponent } from './vis/components/dialogs/match-search/match-search.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RangeSelectorComponent } from './vis/components/range-selector/range-selector.component';
+import { AnnotationComponentComponent } from './vis/components/annotation-component/annotation-component.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { RangeSelectorComponent } from './vis/components/range-selector/range-se
     ModelChartComponent,
     MovementChartComponent,
     MatchSearchComponent,
-    RangeSelectorComponent
+    RangeSelectorComponent,
+    AnnotationComponentComponent
   ],
   imports: [
     BrowserModule,

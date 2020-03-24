@@ -1,6 +1,8 @@
 export class Round {
 
-    public movementData: number[] = null;
+    public movementDataT: {timestamp: number, distBombsiteA: number, distBombsiteB: number} [] = [];
+    public movementDataCT: {timestamp: number, distBombsiteA: number, distBombsiteB: number}[] = []; 
+
     public winProbabilityData: { timestamp: number, CTWinProb: number, TWinProb: number } [] = [];
 
     constructor(
@@ -15,8 +17,12 @@ export class Round {
     ) {}
 
 
-    attachMovementData(movementData: number[]){
-        this.movementData = movementData;
+    attachMovementData(movementData: any[], teamSide: string){
+        if(teamSide == 'CT') {
+            this.movementDataCT = movementData;
+        } else {
+            this.movementDataT = movementData;
+        }
     }
 
     attachWinProbabilityData(winProbabilityData: any){

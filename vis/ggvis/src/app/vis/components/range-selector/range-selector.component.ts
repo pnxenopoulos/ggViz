@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import * as d3 from 'd3';
 
 @Component({
@@ -10,49 +10,50 @@ export class RangeSelectorComponent implements OnInit {
 
   public rangeSlider: any = null;
 
+  @ViewChild('rangeSelectorContainerRef', {static: true}) rangeSelectorContainerRef: ElementRef;
+
+  public brushSVG = null;
+
+  public brushGroup = null;
+
   constructor() { }
 
   ngOnInit() {
 
+    this.appendSVG();
+    this.appengGroup();
+    this.appendBrushArea();
+
+  }
+
+  appendBrushArea(){
+
+    // getting div dimensions
+    const divWidth = this.rangeSelectorContainerRef.nativeElement.offsetWidth;
+    const divHeight = this.rangeSelectorContainerRef.nativeElement.offsetHeight;
 
     const brush = d3.brushX();
-
-    const group = d3.select('.range-selector-svg')
-      .append('g')
-      .attr("class", "brush")
-      .call( brush.extent( [ [0,0], [400,400] ] ) );
+    this.brushGroup.call(brush.extent( [[0,0], [divWidth, divHeight]]));
+  }
 
 
-  //   var sliderRange = d3
-  //   .sliderBottom()
-  //   .min(d3.min(data))
-  //   .max(d3.max(data))
-  //   .width(300)
-  //   .tickFormat(d3.format('.2%'))
-  //   .ticks(5)
-  //   .default([0.015, 0.02])
-  //   .fill('#2196f3')
-  //   .on('onchange', val => {
-  //     d3.select('p#value-range').text(val.map(d3.format('.2%')).join('-'));
-  //   });
+  appendSVG(){
 
-  // var gRange = d3
-  //   .select('div#slider-range')
-  //   .append('svg')
-  //   .attr('width', 500)
-  //   .attr('height', 100)
-  //   .append('g')
-  //   .attr('transform', 'translate(30,30)');
+    // getting div dimensions
+    const divWidth = this.rangeSelectorContainerRef.nativeElement.offsetWidth;
+    const divHeight = this.rangeSelectorContainerRef.nativeElement.offsetHeight;
 
-  // gRange.call(sliderRange);
+    this.brushSVG = d3.select(this.rangeSelectorContainerRef.nativeElement)
+      .append('svg')
+      .attr('width', divWidth)
+      .attr('height', divHeight);
 
-  // d3.select('p#value-range').text(
-  //   sliderRange
-  //     .value()
-  //     .map(d3.format('.2%'))
-  //     .join('-')
-  // );
+  }
 
+
+  appengGroup(){
+
+    this.brushGroup  = this.brushSVG.append('g');
 
   }
 

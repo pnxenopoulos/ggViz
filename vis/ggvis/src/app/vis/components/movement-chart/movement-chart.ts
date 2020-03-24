@@ -12,12 +12,16 @@ export class MovementChart {
     // chart group reference
     public groupRef = null;
 
+    // moving axis
+    public movingAxisGroup = null;
+
     // scales reference
     public xScale = null;
     public yScale = null;
 
     // line generator
-    public line = null;
+    public lineBombSiteA = null;
+    public lineBombSiteB = null;
 
     constructor(public divRef: ElementRef, public movementChartData: any[]){
         this.appendSVG();
@@ -58,13 +62,25 @@ export class MovementChart {
             .attr('transform', 'translate(' + this.margin.left + ',' + (this.divRef.nativeElement.offsetHeight - this.margin.bottom) + ')'  )
             .call(d3.axisBottom(this.xScale));
 
+        this.movingAxisGroup = this.svgRef.append('g')
+            .attr('class', 'moving-axis')
+            .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')')
+            .call(d3.axisLeft(this.yScale).tickSize(0).tickValues([]));
+
+        
+
     }
 
     createLineGenerator(){
 
-        this.line = d3.line()
-            .x( d => { return this.xScale(d['index']) })
-            .y( d => { return this.yScale(d['value']) })
+        this.lineBombSiteA = d3.line()
+            .x( d => { return this.xScale(d['timestamp']) })
+            .y( d => { return this.yScale(d['distBombsiteA']) })
+            .curve(d3.curveMonotoneX);
+
+        this.lineBombSiteB = d3.line()
+            .x( d => { return this.xScale(d['timestamp']) })
+            .y( d => { return this.yScale(d['distBombsiteB']) })
             .curve(d3.curveMonotoneX);
     }
 
@@ -74,24 +90,25 @@ export class MovementChart {
             .domain([0,this.movementChartData.length])
             .range([0, this.divRef.nativeElement.offsetWidth - this.margin.left - this.margin.right]);
 
+
+        const maxDistbombsiteA = d3.max(this.movementChartData, d => d.distBombsiteA);
+        const maxDistbombsiteB = d3.max(this.movementChartData, d => d.distBombsiteB);
+        const maxDist = Math.max(maxDistbombsiteA, maxDistbombsiteB);
+
+
         this.yScale = d3.scaleLinear()
-            .domain([0, 10])
+            .domain([maxDist, 0])
             .range([0, this.divRef.nativeElement.offsetHeight - this.margin.top - this.margin.bottom])
 
     }
 
+    updateMovingAxis(timestamp: number){
+
+        this.movingAxisGroup.attr('transform', 'translate(' + (this.margin.left + this.xScale(timestamp)) + ',' + this.margin.top + ')'  );
+
+    }
+
     updateMap() {
-
-    //     const lines = svg.selectAll("lines")
-    // .data(slices)
-    // .enter()
-    // .append("g");
-   
-    // lines.append("path")
-    // .attr("d", function(d) { return line(d.values); });
-
-        // const lines = this.groupRef.selectAll('lines')
-        //     .data()
 
         this.groupRef
             .datum(this.movementChartData)  
@@ -99,19 +116,16 @@ export class MovementChart {
             .attr('class', 'line')
             .attr('stroke', 'red')
             .attr('fill', 'none')
-            .attr('d', this.line);
+            .attr('d', this.lineBombSiteA);
 
-        
-        
+        this.groupRef
+            .datum(this.movementChartData)  
+            .append('path')
+            .attr('class', 'line')
+            .attr('stroke', 'blue')
+            .attr('fill', 'none')
+            .attr('d', this.lineBombSiteB);
 
-        // this.groupRef.selectAll(".dot")    
-        //     .data(this.movementChartData)
-        //     .enter()
-        //     .append('circle')
-        //     .attr('class', 'dot')
-        //     .attr("cx", (d, i) => { return this.xScale(i) })
-        //     .attr("cy", (d, i) => { return this.yScale(d) })
-        //     .attr("r", 1);
     }
 
 

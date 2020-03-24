@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
 import { MovementChart } from './movement-chart';
 import { StateService } from 'src/app/services/state.service';
 import { EventsService } from 'src/app/services/events.service';
@@ -14,6 +14,8 @@ export class MovementChartComponent implements OnInit {
 
   public movementChart: MovementChart = null;
 
+  @Input('teamSide') teamSide: string;
+
   constructor(public stateService: StateService, public eventsService: EventsService) { }
 
   ngOnInit() {
@@ -21,10 +23,15 @@ export class MovementChartComponent implements OnInit {
   }
 
   subscribeToEvents(){
+    
     this.eventsService.globalEvents.roundLoaded.subscribe( () => {
-      console.log('round loaded');
-      this.movementChart = new MovementChart(this.movementChartDivRef, this.stateService.getSelectedRound().movementData );
+      this.movementChart = this.teamSide == 'CT' ? new MovementChart(this.movementChartDivRef, this.stateService.getSelectedRound().movementDataCT ) : new MovementChart(this.movementChartDivRef, this.stateService.getSelectedRound().movementDataT );
     });
+
+    this.eventsService.slider.valueChanged.subscribe( () => {
+      this.movementChart.updateMovingAxis(this.stateService.getSlider().getCurrentTimeSet());
+    });
+
   } 
 
 }

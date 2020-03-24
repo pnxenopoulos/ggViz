@@ -22,10 +22,6 @@ export class TimeSliderComponent implements OnInit {
 
   subscribeToEvents() {
 
-    // this.eventsService.globalEvents.gameLoaded.subscribe( () => {
-    //   this.slider = this.stateService.getSlider();
-    // });
-
     this.eventsService.globalEvents.roundLoaded.subscribe( () => {
       this.slider = this.stateService.getSlider();
     });
