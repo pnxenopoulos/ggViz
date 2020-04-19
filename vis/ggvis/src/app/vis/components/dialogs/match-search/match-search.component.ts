@@ -44,6 +44,7 @@ export class MatchSearchComponent implements OnInit {
 
   selectMatch(game: string) {
 
+    console.log(game);
     this.spinnerOn = true;
     this.stateService.loadNewGame(game).then( gameData => {
       this.spinnerOn = false;

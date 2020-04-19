@@ -18,7 +18,17 @@
               <td mat-cell *matCellDef="let element"> {{element.endTime}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="label" (click)="expression")>
+            <ng-container matColumnDef="tNumber">
+              <th mat-header-cell *matHeaderCellDef> T Number </th>
+              <td mat-cell *matCellDef="let element"> {{element.tNumber}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="ctNumber">
+              <th mat-header-cell *matHeaderCellDef> CT Number </th>
+              <td mat-cell *matCellDef="let element"> {{element.ctNumber}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="label">
               <th mat-header-cell *matHeaderCellDef> Label </th>
               <td mat-cell *matCellDef="let element"> {{element.label}} </td>
             </ng-container>
@@ -28,14 +38,24 @@
               <td mat-cell *matCellDef="let element"> {{element.description}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="playerName">
-              <th mat-header-cell *matHeaderCellDef> Player Name </th>
-              <td mat-cell *matCellDef="let element"> {{element.playerName}} </td>
+            <ng-container matColumnDef="primaryTeam">
+              <th mat-header-cell *matHeaderCellDef> Primary </th>
+              <td mat-cell *matCellDef="let element"> {{element.primaryTeam}} </td>
             </ng-container>
           
-            <ng-container matColumnDef="teamName">
-              <th mat-header-cell *matHeaderCellDef> Team Name </th>
-              <td mat-cell *matCellDef="let element"> {{element.teamName}} </td>
+            <ng-container matColumnDef="secondaryTeam">
+              <th mat-header-cell *matHeaderCellDef> Secondary </th>
+              <td mat-cell *matCellDef="let element"> {{element.secondaryTeam}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="winProbBeginning">
+              <th mat-header-cell *matHeaderCellDef> Start Prob </th>
+              <td mat-cell *matCellDef="let element"> {{element.startWinProb}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="winProbEnd">
+              <th mat-header-cell *matHeaderCellDef> End Prob </th>
+              <td mat-cell *matCellDef="let element"> {{element.endWinProb}} </td>
             </ng-container>
           
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

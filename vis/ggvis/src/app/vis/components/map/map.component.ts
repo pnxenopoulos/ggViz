@@ -59,7 +59,6 @@ export class MapComponent implements OnInit {
 
     const currentSlider = this.stateService.getSlider();
     
-
     const players = this.stateService.getPlayersName();
     
     this.map.clearCanvas();

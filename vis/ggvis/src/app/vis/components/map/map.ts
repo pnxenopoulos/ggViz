@@ -66,35 +66,32 @@ export class MapView {
 
         let colorIndex = 0;
 
+        this.canvasCtx.beginPath();
+
         _.forEach( trajectorySlice, position =>{
 
-            this.canvasCtx.beginPath();
 
             if(colorIndex != 0){
                 const x0 = trajectorySlice[colorIndex - 1].getNormalizedX(viewportWidth, this.originalCoordinateSystem.x);
-                const y0 = trajectorySlice[colorIndex - 1].getNormalizedY(viewportHeight, this.originalCoordinateSystem.y);
+                const y0 = trajectorySlice[colorIndex - 1].getNormalizedY(viewportHeight, this.originalCoordinateSystem.y) * -1;
                 this.canvasCtx.moveTo(x0, y0)
             }
 
             
             const x = position.getNormalizedX(viewportWidth, this.originalCoordinateSystem.x);
-            const y = position.getNormalizedY(viewportHeight, this.originalCoordinateSystem.y);
+            const y = position.getNormalizedY(viewportHeight, this.originalCoordinateSystem.y) * -1;
             
             this.canvasCtx.lineTo(x, y);    
            
-
             this.canvasCtx.strokeStyle =  playerSide == 'CT' ?  colorScaleCT(colorIndex) : colorScaleT(colorIndex) ;
             
 
             colorIndex++;
 
-            this.canvasCtx.stroke();
+            
         });
 
-        
-        
-
-        
+        this.canvasCtx.stroke();
         
     }
 

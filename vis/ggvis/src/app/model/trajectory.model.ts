@@ -16,7 +16,7 @@ export class Trajectory {
     }
 
     repeatLastPosition(): void{
-        this.trajectory.push(this.trajectory[this.trajectory.length - 1])
+        this.trajectory.push(this.trajectory[this.trajectory.length-1])
     }
 
     getTrajectoryLength(): number{
@@ -31,7 +31,8 @@ export class Trajectory {
 
     // this method adds initial stopped positions for a trajectory
     addInitialPosition(nTicks: number, position: Position): void{
-        for(let i = 0; i < nTicks; i++){
+        
+        for(let i = 0; i <= nTicks; i++){
             this.trajectory.push(position);
         }
     }

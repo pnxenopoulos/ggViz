@@ -16,14 +16,18 @@ import { Position } from '../model/position.model';
 export class StateService {
 
     private slider: Slider;
+    
+    // selected range to annotate
+    private annotationRange: number[] = null;
 
     private loadedGame: Game = null;
     private selectedMap: Map = null;
     private selectedRound: Round = null;
 
-
     // players in round
     private players: { [id: string] : Player } = {};
+
+    private tickIDs: number[] = [];
 
     constructor(public apiService: APIService, public eventsService: EventsService) {}
 
@@ -65,19 +69,21 @@ export class StateService {
         return Object.keys(this.players);
     }
 
-    getSelectedRound(): Round{
+    getSelectedRound(): Round {
         return this.selectedRound;
     }
 
     async selectRound(roundNumber: number, ) {
 
         this.selectedRound = this.selectedMap.getRound(roundNumber);
-        const nTimeSteps: number = await this.loadTrajectories(this.loadedGame.id, this.selectedMap.name, this.selectedRound.roundNumber);
+        const trajectoriesLoadObj: any = await this.loadTrajectories(this.loadedGame.id, this.selectedMap.name, this.selectedRound.roundNumber);
+
+        this.tickIDs = trajectoriesLoadObj['trajectoryTicks'];
+        const nTimeSteps = trajectoriesLoadObj['nTimesteps'];
 
         // win probability Data
-        // TODO: Request to win probability data
         let winProbabilitiesAndDistances = await this.apiService.getWinProbabilitiesAndDistances(this.loadedGame.id, this.selectedMap.name, this.selectedRound.roundNumber);
-        winProbabilitiesAndDistances = DataHandler.formatWinProbabilityAndMovement(winProbabilitiesAndDistances);
+        winProbabilitiesAndDistances = DataHandler.formatWinProbabilityAndMovement(winProbabilitiesAndDistances, this.tickIDs);
         this.selectedRound.attachWinProbabilityData(winProbabilitiesAndDistances.winProbability);
 
         // movement chart Data
@@ -99,6 +105,18 @@ export class StateService {
 
     selectMap(mapName?: string): void {
         this.selectedMap = mapName ? this.loadedGame.getMap(mapName) : this.loadedGame.getFirstMap();
+    }
+
+    setAnnotationRange(annotationRange: number[]){
+
+        const ticksRange = [ this.tickIDs[ Math.floor(annotationRange[0])],  this.tickIDs[ Math.floor(annotationRange[1])]]
+        this.annotationRange = ticksRange;
+        return ticksRange;
+
+    }
+
+    getAnnotationRange(){
+        return this.annotationRange;
     }
 
     async getAllGamesIDs() {
@@ -129,17 +147,15 @@ export class StateService {
 
     }
 
-    async loadWinProbsAndDistances(){
-
-    }
-
     async loadTrajectories(gameID: string, mapName: string, roundNumber: number) {
 
         const trajectories = await this.apiService.getTrajectories(gameID, mapName, roundNumber);
+        const trajectoryTicks = Object.keys(trajectories).map( element => parseInt(element) );
+
         const nTimesteps: number = Object.keys(trajectories).length;
         this.players = DataHandler.formatTrajectories(trajectories);
-
-        return nTimesteps;
+        
+        return {'nTimesteps': nTimesteps, 'trajectoryTicks': trajectoryTicks};
 
     }
 }
