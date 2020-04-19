@@ -18,7 +18,7 @@ export class StateService {
     private slider: Slider;
     
     // selected range to annotate
-    private annotationRange: number[] = null;
+    private annotationRange: {global: number[], local: number[]} = null;
 
     private loadedGame: Game = null;
     private selectedMap: Map = null;
@@ -73,6 +73,13 @@ export class StateService {
         return this.selectedRound;
     }
 
+    getProbAtTimestep(timestep: number){
+
+        console.log(timestep);
+        return this.selectedRound.getWinProbAtTimestep(timestep);
+
+    }
+
     async selectRound(roundNumber: number, ) {
 
         this.selectedRound = this.selectedMap.getRound(roundNumber);
@@ -110,7 +117,7 @@ export class StateService {
     setAnnotationRange(annotationRange: number[]){
 
         const ticksRange = [ this.tickIDs[ Math.floor(annotationRange[0])],  this.tickIDs[ Math.floor(annotationRange[1])]]
-        this.annotationRange = ticksRange;
+        this.annotationRange = {global: ticksRange, local: annotationRange};
         return ticksRange;
 
     }

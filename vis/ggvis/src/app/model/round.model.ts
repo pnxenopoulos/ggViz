@@ -29,4 +29,11 @@ export class Round {
         this.winProbabilityData = winProbabilityData;
     }
 
+    getWinProbAtTimestep(timestep: number){
+
+        const timestempIndex = Math.floor(timestep);
+        return this.winProbabilityData[timestempIndex];
+
+    }
+
 }
