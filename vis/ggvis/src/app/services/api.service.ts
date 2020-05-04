@@ -22,6 +22,45 @@ export class APIService {
         return response.json();
     }
 
+    async getKills(gameID: string, mapName: string, roundNumber: number){
+
+        const endpoint = `${environment.backendURL}/api/kills/${gameID}/${mapName}/${roundNumber}`;
+        const kills = await fetch(endpoint);
+        return kills.json();
+
+    }
+
+
+    async getAnnotations(gameID: string, mapName: string, roundNumber: number){
+
+        const url = `${environment.backendURL}/api/annotation/${gameID}/${mapName}/${roundNumber}`;
+        const annotations = await fetch(url);
+
+        return annotations.json();
+
+    }
+
+    async saveAnnotation(params: any, gameID: string, mapName: string, roundNumber: number){
+
+        const url = `${environment.backendURL}/api/annotation/${gameID}/${mapName}/${roundNumber}`;
+        console.log(url);
+
+        // post header
+        const headers = {
+            'Content-Type': 'application/json',
+        };
+
+        // Return a new promise.
+        const response = await fetch(url, {
+            method: 'POST',
+            headers,
+            body: JSON.stringify(params),
+        });
+
+        return await response.json();
+
+    }
+
 
     async getTrajectories(gameID: string, mapName: string, roundNumber: number) {
 
@@ -30,34 +69,19 @@ export class APIService {
         return  trajectories.json();
     }
 
-    // async getMovementChartData(nTicks: number) {
-
-    //     const movementChart: any[] = [];
-    //     let currentPoint: number = 0;
-    //     let multiplier: number = 1;
-    //     for(let i = 0; i < nTicks; i++){
-
-    //         if(currentPoint > 9.8) {
-    //             multiplier = -1.0;
-    //         }else if(currentPoint < 0.2){
-    //             multiplier = 1.0;
-    //         }
-
-    //         currentPoint += 0.1 * multiplier;
-    //         movementChart.push({index: i, value: currentPoint});
-    //     }
-        
-    //     return movementChart;
-
-    // }
 
     async getWinProbabilitiesAndDistances(gameID: string, mapName: string, roundNumber: number){
 
         const endpoint = `${environment.backendURL}/api/win_prob/${gameID}/${mapName}/${roundNumber}`;
-        console.log(endpoint);
         const winprobabilities = await fetch(endpoint);
         return winprobabilities.json(); 
 
+    }
+
+    async getSimilarRounds(annotationID: number){
+        const endpoint = `${environment.backendURL}/api/annotation/${annotationID}/similar`;
+        const similarRounds = await fetch(endpoint);
+        return similarRounds.json();
     }
 
 }

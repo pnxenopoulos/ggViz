@@ -17,6 +17,8 @@ import { MatchSearchComponent } from './vis/components/dialogs/match-search/matc
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RangeSelectorComponent } from './vis/components/range-selector/range-selector.component';
 import { AnnotationComponentComponent } from './vis/components/annotation-component/annotation-component.component';
+import { SpecialEventsComponent } from './vis/components/special-events/special-events.component';
+import { SimilarPlaysComponent } from './vis/components/similar-plays/similar-plays.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,9 @@ import { AnnotationComponentComponent } from './vis/components/annotation-compon
     MovementChartComponent,
     MatchSearchComponent,
     RangeSelectorComponent,
-    AnnotationComponentComponent
+    AnnotationComponentComponent,
+    SpecialEventsComponent,
+    SimilarPlaysComponent
   ],
   imports: [
     BrowserModule,

@@ -4,7 +4,7 @@ import * as d3 from 'd3';
 export class MovementChart {
 
     // chart margin definition
-    public margin = {top: 50, right: 50, bottom: 50, left: 50};
+    public margin = {top: 10, right: 50, bottom: 50, left: 50};
 
     // chart svg reference
     public svgRef = null;

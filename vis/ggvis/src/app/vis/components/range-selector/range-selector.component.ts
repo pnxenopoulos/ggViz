@@ -38,10 +38,17 @@ export class RangeSelectorComponent implements OnInit {
   }
 
   createBrush(){
+    if(this.brushSVG !== null){
+      this.clear();
+    }
     this.appendSVG();
     this.appengGroup();
     this.appendBrushArea();
     this.createScale(this.stateService.getSlider().getRange())
+  }
+
+  clear(){
+    this.brushSVG.remove();
   }
 
   appendBrushArea(){

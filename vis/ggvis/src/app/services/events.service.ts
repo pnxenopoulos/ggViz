@@ -14,7 +14,8 @@ export class EventsService {
 
     public globalEvents = {
         roundLoaded: new EventEmitter<any>(),
-        gameLoaded: new EventEmitter<any>()
+        gameLoaded: new EventEmitter<any>(),
+        similarMatches: new EventEmitter<any>()
     }
 
 

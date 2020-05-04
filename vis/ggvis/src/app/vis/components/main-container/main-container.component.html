@@ -8,7 +8,9 @@
 
     <mat-sidenav #sidenav [mode]="mode.value">
         <p><button mat-button (click)="sidenav.toggle()">Toggle</button></p>
-        <div class='sidenav-inside-container'></div>
+        <div class='sidenav-inside-container'>
+            <app-similar-plays></app-similar-plays>
+        </div>
     </mat-sidenav>
 
     <mat-sidenav-content class='sidenav-content-container'>
@@ -17,10 +19,13 @@
         <div class="container" >
             <div class='first-row'>
                 <div class='charts'>
-                    <mat-tab-group class='tab-group' (selectedTabChange)="onTabChange($event)">
+                    <mat-tab-group class='tab-group' (selectedTabChange)="onTabChange($event)" [selectedIndex]="mode.value">
                         <mat-tab *ngFor="let round of this.getVISRounds()" label={{round.roundNumber}} >  
                             <ng-template matTabContent>
                                 <div class='tab-body'>
+                                    <div class='special-events-container'>
+                                        <app-special-events></app-special-events>
+                                    </div>
                                     <div class='model-chart'>
                                         <app-model-chart></app-model-chart>
                                     </div>

@@ -15,7 +15,7 @@ import { Map } from 'src/app/model/map.model';
 })
 export class MainContainerComponent implements OnInit {
 
-  mode = new FormControl('over');
+  public mode = new FormControl(0);
 
   public loadedGame: Game = null;
   public loadedMap: Map = null;
@@ -44,6 +44,8 @@ export class MainContainerComponent implements OnInit {
       this.loadedMap = this.stateService.getLoadedMap();
     });
   }
+
+  
 
   onTabChange(event) {
     this.roundLoading = true;

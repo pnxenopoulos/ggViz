@@ -2,6 +2,8 @@ import * as _ from 'lodash';
 import { Player } from '../model/player.model';
 import { Trajectory } from '../model/trajectory.model';
 import { Position } from '../model/position.model';
+import { Annotation } from '../model/annotation.model';
+import { Kill } from '../model/kill.model';
 
 export class DataHandler {
 
@@ -189,9 +191,90 @@ export class DataHandler {
     public static getTrajectoryTicks(players: any){
 
         const tempPlayer = players[Object.keys(players)[0]];
-        console.log(tempPlayer);
         const tempTrajectory = tempPlayer.trajectory.trajectory;
         return tempTrajectory.map(trajectoryTick => trajectoryTick.id);
+
+    }
+
+
+    public static formatKills(ticks: number[], killsData: any){
+
+        const formattedKills: Kill[] = [];
+        _.forEach(killsData, (kill, killKey) => {
+
+            const closestTick = this.getClosestValue(ticks, killKey);
+            const timestamp = ticks.indexOf(closestTick)
+            const killOBJ: Kill = new Kill(timestamp, closestTick, kill['AttackerSide'], kill['VictimSide']);
+
+
+            formattedKills.push(killOBJ);
+        });
+
+        return formattedKills;
+
+    }
+
+    public static getClosestValue(ticks: number[], value: number){
+
+        const closest = ticks.reduce((a, b) => {
+            return Math.abs(b - value) < Math.abs(a - value) ? b : a;
+        });
+
+        return closest;
+
+    }
+
+
+    public static formatIncomingAnnotations(annotations: any): Annotation[]{
+
+        const formattedAnnotations: Annotation[] = [];
+
+        _.forEach(annotations, (annotation, annotationKey) => {
+            const annotationOBJ = new Annotation( 
+                annotation['StartTick'],
+                annotation['EndTick'],
+                annotation['NumT'],
+                annotation['NumCT'],
+                annotation['Label'],
+                annotation['Description'],
+                annotation['PrimaryTeam'],
+                annotation['SecondaryTeam'],
+                parseFloat(annotation['StartWinProb']),
+                parseFloat(annotation['EndWinProb']),
+            )
+
+            annotationOBJ.setSaved();
+            annotationOBJ.numStartWinProb = parseFloat(annotation['StartWinProb']);
+            annotationOBJ.numEndWinProb = parseFloat(annotation['EndWinProb']);
+            annotationOBJ.setID(annotationKey);
+
+            formattedAnnotations.push(annotationOBJ);
+        });
+
+        return formattedAnnotations;
+
+    }
+
+    public static formatAnnotationRequestParam(annotation: Annotation, gameID: string, map: string, roundNum: number){
+
+        const params = {};
+
+        params['GameID'] = gameID;
+        params['MapName'] = map;
+        params['RoundNum'] = roundNum;
+        params['StartTick'] = annotation.startTime;
+        params['EndTick'] = annotation.endTime;
+        params['NumT'] = annotation.tNumber;
+        params['NumCT'] = annotation.ctNumber;
+        params['Label'] = annotation.label;
+        params['Tags'] = 'testTag';
+        params['Description'] = annotation.description;
+        params['PrimaryTeam'] = annotation.primaryTeam;
+        params['SecondaryTeam'] = annotation.secondaryTeam;
+        params['StartWinProb'] = annotation.numStartWinProb;
+        params['EndWinProb'] = annotation.numEndWinProb;
+
+        return params;
 
     }
 

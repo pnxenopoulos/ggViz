@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  backendURL: 'http://vidagpu.poly.edu:5000'
+  backendURL: 'http://vidagpu.poly.edu:8050'
 };
 
 /*

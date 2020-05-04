@@ -8,6 +8,8 @@ import { Map } from '../model/map.model';
 import { Round } from '../model/round.model';
 import { Player } from '../model/player.model';
 import { Position } from '../model/position.model';
+import { Annotation } from '../model/annotation.model';
+import { async } from '@angular/core/testing';
 
 @Injectable({
     providedIn: 'root'
@@ -28,6 +30,8 @@ export class StateService {
     private players: { [id: string] : Player } = {};
 
     private tickIDs: number[] = [];
+
+    private similarRounds: any[] = [];
 
     constructor(public apiService: APIService, public eventsService: EventsService) {}
 
@@ -75,12 +79,16 @@ export class StateService {
 
     getProbAtTimestep(timestep: number){
 
-        console.log(timestep);
         return this.selectedRound.getWinProbAtTimestep(timestep);
 
     }
 
-    async selectRound(roundNumber: number, ) {
+    getTickIDs(){
+        /// Return a copy so other components won't mess up
+        return this.tickIDs.slice(0, this.tickIDs.length);
+    }
+
+    async selectRound(roundNumber: number ) {
 
         this.selectedRound = this.selectedMap.getRound(roundNumber);
         const trajectoriesLoadObj: any = await this.loadTrajectories(this.loadedGame.id, this.selectedMap.name, this.selectedRound.roundNumber);
@@ -92,6 +100,14 @@ export class StateService {
         let winProbabilitiesAndDistances = await this.apiService.getWinProbabilitiesAndDistances(this.loadedGame.id, this.selectedMap.name, this.selectedRound.roundNumber);
         winProbabilitiesAndDistances = DataHandler.formatWinProbabilityAndMovement(winProbabilitiesAndDistances, this.tickIDs);
         this.selectedRound.attachWinProbabilityData(winProbabilitiesAndDistances.winProbability);
+
+        // kills data
+        let kills = await this.apiService.getKills(this.loadedGame.id, this.selectedMap.name, this.selectedRound.roundNumber);
+        this.selectedRound.attachKills(DataHandler.formatKills(this.tickIDs, kills));
+
+        // annotations data
+        let annotations = await this.apiService.getAnnotations(this.loadedGame.id, this.selectedMap.name, this.selectedRound.roundNumber);
+        this.selectedRound.attachAnnotations(DataHandler.formatIncomingAnnotations(annotations));
 
         // movement chart Data
         // const movementChartData = await this.apiService.getMovementChartData(nTimeSteps);
@@ -124,6 +140,10 @@ export class StateService {
 
     getAnnotationRange(){
         return this.annotationRange;
+    }
+
+    getSimilarRounds(){
+        return this.similarRounds;
     }
 
     async getAllGamesIDs() {
@@ -163,6 +183,23 @@ export class StateService {
         this.players = DataHandler.formatTrajectories(trajectories);
         
         return {'nTimesteps': nTimesteps, 'trajectoryTicks': trajectoryTicks};
+
+    }
+
+    async loadSimilarMatches(annotationID: number){
+
+        const similarRounds = await this.apiService.getSimilarRounds(annotationID);
+        this.similarRounds = similarRounds;
+        this.eventsService.globalEvents.similarMatches.emit();
+        
+    }
+
+    async saveAnnotation(annotation: Annotation){
+
+        const params = DataHandler.formatAnnotationRequestParam(annotation, this.loadedGame.id, this.selectedMap.name, this.selectedRound.roundNumber);
+        const response = await this.apiService.saveAnnotation(params, this.loadedGame.id, this.selectedMap.name, this.selectedRound.roundNumber);
+        console.log(response['AnnotationID'])
+        return response['AnnotationID'];
 
     }
 }

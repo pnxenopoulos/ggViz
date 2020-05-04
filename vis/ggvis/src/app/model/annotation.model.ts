@@ -1,5 +1,10 @@
 export class Annotation {
 
+    public saved: boolean = false;
+    public numStartWinProb: any = 0;
+    public numEndWinProb: any = 0;
+    public id: number = null;
+
     constructor(
         public startTime: number,
         public endTime: number,
@@ -10,15 +15,18 @@ export class Annotation {
         public primaryTeam: string,
         public secondaryTeam: string, 
         public startWinProb: any,
-        public endWinProb: any){
+        public endWinProb: any
+        ){
 
-            this.startWinProb = this.primaryTeam == 'CT' ? startWinProb['CTWinProb'] : startWinProb['TWinProb'];
-            this.endWinProb = this.primaryTeam == 'CT' ? endWinProb['CTWinProb'] : endWinProb['TWinProb'];
+            // this.numStartWinProb = this.primaryTeam == 'CT' ? startWinProb['CTWinProb'] : startWinProb['TWinProb'];
+            // this.numEndWinProb = this.primaryTeam == 'CT' ? endWinProb['CTWinProb'] : endWinProb['TWinProb'];
 
         }
 
 
-
+    public setSaved(){
+        this.saved = true;
+    }
 
     public setAttribute( attributeName: string, newValue: string){
 
@@ -45,6 +53,32 @@ export class Annotation {
         }
     }
 
+
+    setPrimaryTeam(team: string){
+        if(team == 'CT'){
+            this.primaryTeam = 'CT';
+            this.numStartWinProb = this.startWinProb['CTWinProb'];
+            this.numEndWinProb = this.endWinProb['CTWinProb'];
+            this.secondaryTeam = 'T';
+        }else {
+            this.primaryTeam = 'T';
+            this.numStartWinProb = this.startWinProb['TWinProb'];
+            this.numEndWinProb = this.endWinProb['TWinProb'];
+            this.secondaryTeam = 'CT';
+        }
+    }
+
+    setTNumber(tnumber: number){
+        this.tNumber = tnumber;
+    }
+
+    setCTNumber(ctnumber: number){
+        this.ctNumber = ctnumber;
+    }
+
+    setID(id: number){
+        this.id = id;
+    }
         
 
 

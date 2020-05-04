@@ -1,9 +1,15 @@
+import { Annotation } from './annotation.model';
+
 export class Round {
 
     public movementDataT: {timestamp: number, distBombsiteA: number, distBombsiteB: number} [] = [];
     public movementDataCT: {timestamp: number, distBombsiteA: number, distBombsiteB: number}[] = []; 
 
     public winProbabilityData: { timestamp: number, CTWinProb: number, TWinProb: number } [] = [];
+
+    public annotations: Annotation[] = [];
+
+    public kills: any[] = [];
 
     constructor(
         public roundNumber: number,
@@ -29,11 +35,23 @@ export class Round {
         this.winProbabilityData = winProbabilityData;
     }
 
+    attachKills(killsData: any){
+        this.kills = killsData;
+    }
+
+    getAllKills(){
+        return this.kills;
+    }
+
     getWinProbAtTimestep(timestep: number){
 
         const timestempIndex = Math.floor(timestep);
         return this.winProbabilityData[timestempIndex];
 
+    }
+
+    attachAnnotations(annotations: Annotation[]){
+        this.annotations = annotations;
     }
 
 }

@@ -11,7 +11,7 @@ export class ModelChart {
     public movingAxisGroup: any = null;
 
     // Defining Margins
-    private margin = {top: 50, right: 50, bottom: 50, left: 50};
+    private margin = {top: 10, right: 50, bottom: 50, left: 50};
 
     // scales
     public xScale = null;
@@ -101,11 +101,11 @@ export class ModelChart {
             .range([0, this.divRef.nativeElement.offsetWidth - this.margin.left - this.margin.right]);
 
         this.yScale = d3.scaleLinear()
-            .domain([0,1])
+            .domain([1,0])
             .range([0, this.divRef.nativeElement.offsetHeight - this.margin.top - this.margin.bottom]);
 
         this.movingScale = d3.scaleLinear()
-            .domain([0,1])
+            .domain([1,0])
             .range([0, this.divRef.nativeElement.offsetHeight - this.margin.top - this.margin.bottom]);
 
     }

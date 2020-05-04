@@ -38,7 +38,7 @@ $fontsize: 18px;
 
 .sidenav-inside-container {
   width: 500px;
-  height: 500px;
+  height: 100%;
 }
 
 .first-row {
@@ -92,7 +92,7 @@ $fontsize: 18px;
 
 .model-chart {
   width: 100%;
-  height: 33%;
+  height: 30%;
 }
 
 button {
@@ -102,11 +102,16 @@ button {
 
 .movement-chart {
   width: 100%;
-  height: 33%;
+  height: 30%;
 }
 
 .fourth-row{
   width: 100%;
   height: 30%;
   display: flex;
+}
+
+.special-events-container{
+  width: 100%;
+  height: 10%;
 }
