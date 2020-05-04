@@ -246,7 +246,7 @@ export class DataHandler {
             annotationOBJ.setSaved();
             annotationOBJ.numStartWinProb = parseFloat(annotation['StartWinProb']);
             annotationOBJ.numEndWinProb = parseFloat(annotation['EndWinProb']);
-            annotationOBJ.setID( Math.floor(annotationKey) );
+            annotationOBJ.setID( parseInt(annotationKey) );
 
             formattedAnnotations.push(annotationOBJ);
         });
