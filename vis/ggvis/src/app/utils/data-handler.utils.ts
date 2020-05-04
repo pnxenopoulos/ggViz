@@ -202,7 +202,7 @@ export class DataHandler {
         const formattedKills: Kill[] = [];
         _.forEach(killsData, (kill, killKey) => {
 
-            const closestTick = this.getClosestValue(ticks, killKey);
+            const closestTick = this.getClosestValue(ticks, parseInt(killKey));
             const timestamp = ticks.indexOf(closestTick)
             const killOBJ: Kill = new Kill(timestamp, closestTick, kill['AttackerSide'], kill['VictimSide']);
 
