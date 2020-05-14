@@ -39,6 +39,11 @@ export class MainContainerComponent implements OnInit {
   }
 
   subscribeToEvents() {
+
+    // this.eventsService.globalEvents.roundLoaded.subscribe( () => {
+    //   this.mode.setValue(this.stateService.getSelectedRound().roundNumber-1);
+    // }); 
+
     this.eventsService.globalEvents.gameLoaded.subscribe( () => {
       this.loadedGame = this.stateService.getLoadedGame();
       this.loadedMap = this.stateService.getLoadedMap();

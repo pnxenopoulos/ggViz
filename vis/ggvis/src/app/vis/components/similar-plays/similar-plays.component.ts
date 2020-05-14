@@ -28,8 +28,9 @@ export class SimilarPlaysComponent implements OnInit {
 
   goToGame( similarPlay: any ){
     similarPlay['id'] = similarPlay['GameID'];
+
     this.stateService.loadNewGame(similarPlay).then( gameData => {
-      this.stateService.selectRound(0);
+      this.stateService.selectRound(parseInt(similarPlay['RoundNum']) - 1);
     });
   }
 

@@ -1,5 +1,6 @@
 <div class='similar-match-container' *ngFor="let match of this.similarPlays">
     <mat-card class='similar-match-card' (click)="goToGame(match)">
-        <p>{{ match["GameID"] }}</p>
+        <p>MatchID: {{ match["GameID"] }}</p>
+        <p>Round: {{ match["RoundNum"] }}</p>
     </mat-card>
 </div>
